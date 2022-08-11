@@ -11,7 +11,7 @@ let app = express();
 
 // Database setup
 let database = require('./services/database');
-// database();
+database.connect();
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
