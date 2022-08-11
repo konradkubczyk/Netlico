@@ -4,7 +4,7 @@ class Page {
     #content;
     #actions;
 
-    constructor(id=null, name=null, content=null, actions=[]) {
+    constructor(id = null, name = null, content = null, actions = []) {
         this.#id = id;
         this.#name = name;
         this.#content = content;
@@ -12,4 +12,4 @@ class Page {
     }
 }
 
-module.exports = Page;
+export default Page;

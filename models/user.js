@@ -6,7 +6,7 @@ class User {
     #websites;
     #admin;
 
-    constructor(id=null, email=null, isVerified=false, hashedPassword=null, websites=[], admin=false) {
+    constructor(id = null, email = null, isVerified = false, hashedPassword = null, websites = [], admin = false) {
         this.#id = id;
         this.#email = email;
         this.#emailVerified = isVerified;

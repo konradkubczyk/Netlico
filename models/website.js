@@ -5,7 +5,7 @@ class Website {
     #pages;
     #homePageId;
 
-    constructor(id=null, domain=null, title=null, pages=[], homePageId=null) {
+    constructor(id = null, domain = null, title = null, pages = [], homePageId = null) {
         this.#id = id;
         this.#domain = domain;
         this.#title = title;
@@ -14,4 +14,4 @@ class Website {
     }
 }
 
-module.exports = Website;
+export default Website;
