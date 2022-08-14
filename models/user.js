@@ -1,18 +1,16 @@
 class User {
     #id;
     #email;
-    #emailVerified;
     #hashedPassword;
     #websites;
-    #admin;
+    #isAdmin;
 
-    constructor(id = null, email = null, isVerified = false, hashedPassword = null, websites = [], admin = false) {
+    constructor(id = null, email = { address: null, isVerified: false }, isVerified = false, hashedPassword = null, websites = [], isAdmin = false) {
         this.#id = id;
         this.#email = email;
-        this.#emailVerified = isVerified;
         this.#hashedPassword = hashedPassword;
         this.#websites = websites;
-        this.#admin = admin;
+        this.#isAdmin = isAdmin;
     }
 
     #loadUser() {

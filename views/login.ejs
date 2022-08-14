@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <%- include('./components/head'); %>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row p-2 min-vh-100 align-items-center">
+            <div class="col-md-8 col-lg-6 col-xl-4 mx-auto">
+                <div class="p-3 d-flex flex-column gap-4">
+                    <h1 class="text-center">Log in</h1>
+                    <!-- <% // if (messages.error) { %>
+                        <div class="alert alert-danger alert-dismissible fade show m-0 text-start" role="alert">
+                            <%= // messages.error %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Odrzuć"></button>
+                        </div>
+                    <% // } %> -->
+                    <form class="d-flex flex-column gap-4" action="/auth/login" method="post">
+                        <div class="form-floating">
+                            <input name="email" type="email" placeholder="Email" class="form-control"
+                                id="floatingEmail" required>
+                            <label for="floatingEmail">Email</label>
+                        </div>
+                        <div class="form-floating">
+                            <input name="password" type="password" placeholder="Password" class="form-control"
+                                id="floatingPassword" required>
+                            <label for="floatingPassword">Password</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Log in</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('./components/foot'); %>
+</body>
+
+</html>

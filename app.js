@@ -1,16 +1,21 @@
-let createError = require('http-errors');
-let express = require('express');
-let path = require('path');
-let cookieParser = require('cookie-parser');
-let logger = require('morgan');
+// Import packages
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-let indexRouter = require('./routes/index');
-let usersRouter = require('./routes/users');
+// Setup routers
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
+const accountRouter = require('./routes/account');
+const sitesRouter = require('./routes/sites');
 
-let app = express();
+const app = express();
 
 // Database setup
-let database = require('./services/database');
+const database = require('./services/database');
 database.connect();
 
 // View engine setup
@@ -27,8 +32,12 @@ app.use('/static', express.static(path.join(__dirname, '/public')));
 app.use('/static/bootstrap', express.static(path.join(__dirname, '/node_modules/bootstrap/dist')));
 app.use('/static/bootstrap-icons', express.static(path.join(__dirname, '/node_modules/bootstrap-icons/font')));
 
+// Setup routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/auth', authRouter);
+app.use('/account', accountRouter);
+app.use('/sites', sitesRouter);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {

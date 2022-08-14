@@ -29,7 +29,11 @@ const UserSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
-    admin: {
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
+    isPro: {
         type: Boolean,
         default: false
     }
