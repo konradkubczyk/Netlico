@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const auth = require('../services/auth');
+const auth = require('../utils/auth');
 
 router.get('/', auth.loggedIn, (req, res, next) => {
     res.send('account');

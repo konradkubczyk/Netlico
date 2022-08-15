@@ -15,7 +15,7 @@ const sitesRouter = require('./routes/sites');
 const app = express();
 
 // Database setup
-const database = require('./services/database');
+const database = require('./utils/database');
 database.connect();
 
 // View engine setup
