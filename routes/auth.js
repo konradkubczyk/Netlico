@@ -47,7 +47,7 @@ router.post('/login', async (req, res) => {
         }
         try {
             const passwordCheck = await bcryptjs.compare(req.body.password, user.hashedPassword);
-            
+
             if (passwordCheck) {
                 const token = jwt.sign(
                     {
@@ -60,11 +60,19 @@ router.post('/login', async (req, res) => {
                     }
                 );
 
-                res.status(200).send({
-                    message: 'Authentication successful',
-                    email: user.email,
-                    token
-                });
+                // res.cookie("auth_token", token, {
+                //     httpOnly: true,
+                //     secure: process.env.NODE_ENV === "production",
+                //   }).status(200).send({
+                //     message: 'Authentication successful',
+                //     email: user.email,
+                //     token
+                // });
+
+                res.cookie("auth_token", token, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === "production",
+                }).status(200).redirect('/');
             } else {
                 res.status(400).send({
                     message: 'The password is incorrect',
