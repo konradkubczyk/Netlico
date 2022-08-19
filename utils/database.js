@@ -7,7 +7,7 @@ class Database {
         try {
             console.log('Connecting to MongoDB...')
             await mongoose.connect(
-                process.env.MONGODB_URI
+                this.#uri
             );
             console.log('Successfully connected to MongoDB.');
         } catch (error) {
