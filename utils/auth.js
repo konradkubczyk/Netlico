@@ -1,26 +1,27 @@
 const jwt = require("jsonwebtoken");
 
-module.exports = {
-    loggedIn: (req, res, next) => {
+class Auth {
+    static #jwtSecret = process.env.JWT_SECRET;
+
+    static #deserializeUser(authToken) {
         try {
-            const token = req.cookies.auth_token;
-            req.user = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
-            next();
+            return jwt.verify(authToken, this.#jwtSecret);
         } catch (error) {
-            // res.status(401).json({
-            //     message: 'Unauthorized, log in to access the resource',
-            //     error: new Error("Invalid request")
-            // });
-            res.status(401).redirect('/account/login');
+            return null;
         }
-    },
-    loggedOut: (req, res, next) => {
-        try {
-            const token = req.cookies.auth_token;
-            req.user = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
-            res.redirect('/');
-        } catch (error) {
-            next();
+    }
+
+    static isAuthorized(expectLoggedIn = true, unauthorizedRedirect = '/account/login') {
+        return (req, res, next) => {
+            req.user = this.#deserializeUser(req.cookies.auth_token);
+
+            if (expectLoggedIn === Boolean(req.user)) {
+                next();
+            } else {
+                res.redirect(unauthorizedRedirect);
+            }
         }
     }
 }
+
+module.exports = Auth;
