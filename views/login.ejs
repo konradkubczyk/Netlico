@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row p-2 min-vh-100 align-items-center">
             <div class="col-md-8 col-lg-6 col-xl-4 mx-auto">
-                <div class="p-3 d-flex flex-column gap-4">
+                <div class="p-3 d-flex flex-column gap-3">
                     <h1 class="text-center">Log in</h1>
                     <% if (messages.error) { %>
                         <div class="alert alert-danger alert-dismissible fade show m-0 text-start" role="alert">
@@ -30,6 +30,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Log in</button>
                     </form>
+                    <a href="/account/register" class="text-center">Create a new account</a>
                 </div>
             </div>
         </div>
