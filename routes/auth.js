@@ -19,21 +19,28 @@ router.post('/register', async (req, res) => {
         });
         try {
             const result = await user.save();
-            res.status(201).send({
-                message: 'Account created successfully',
-                result
-            });
+            // res.status(201).send({
+            //     message: 'Account created successfully',
+            //     result
+            // });
+            req.flash('success', 'Account created successfully');
+            res.status(201).redirect('/account/register');
+            
         } catch (error) {
-            res.status(500).send({
-                message: 'An error occured while trying to create the account',
-                error
-            });
+            // res.status(500).send({
+            //     message: 'An error occured while trying to create the account',
+            //     error
+            // });
+            req.flash('error', 'An error occured while trying to create the account');
+            res.status(500).redirect('/account/register');
         }
     } catch (error) {
-        res.status(500).send({
-            message: 'An error occured while trying to hash the password',
-            error
-        });
+        // res.status(500).send({
+        //     message: 'An error occured while trying to hash the password',
+        //     error
+        // });
+        req.flash('error', 'An error occured while trying to hash the password');
+        res.status(500).redirect('/account/register');
     }
 });
 
@@ -44,6 +51,8 @@ router.post('/login', async (req, res) => {
         });
         if (!user) {
             throw new Error('Email not found');
+            // req.flash('error', 'Email not found');
+            // res.status(400).redirect('/account/login');
         }
         try {
             const passwordCheck = await bcryptjs.compare(req.body.password, user.hashedPassword);
@@ -76,22 +85,28 @@ router.post('/login', async (req, res) => {
                     // secure: process.env.NODE_ENV === "production"
                 }).status(200).redirect('/');
             } else {
-                res.status(400).send({
-                    message: 'The password is incorrect',
-                    error
-                })
+                // res.status(400).send({
+                //     message: 'The password is incorrect',
+                //     error
+                // })
+                req.flash('error', 'The password is incorrect');
+                res.status(400).redirect('/account/login');
             }
         } catch (error) {
-            res.status(400).send({
-                message: 'The password is incorrect',
-                error
-            });
+            // res.status(400).send({
+            //     message: 'The password is incorrect',
+            //     error
+            // });
+            req.flash('error', 'The password is incorrect');
+            res.status(400).redirect('/account/login');
         }
     } catch (error) {
-        res.status(404).send({
-            message: 'Could not find an account with the provided email address',
-            error
-        });
+        // res.status(404).send({
+        //     message: 'Could not find an account with the provided email address',
+        //     error
+        // });
+        req.flash('error', 'Could not find an account associated with the provided email address');
+        res.status(400).redirect('/account/login');
     }
 });
 

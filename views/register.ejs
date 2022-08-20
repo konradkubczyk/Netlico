@@ -11,12 +11,18 @@
             <div class="col-md-8 col-lg-6 col-xl-4 mx-auto">
                 <div class="p-3 d-flex flex-column gap-4">
                     <h1 class="text-center">Register</h1>
-                    <!-- <% // if (messages.error) { %>
-                        <div class="alert alert-danger alert-dismissible fade show m-0 text-start" role="alert">
-                            <%= // messages.error %>
+                    <% if (messages.success) { %>
+                        <div class="alert alert-success alert-dismissible fade show m-0 text-start" role="alert">
+                            <%= messages.success %>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Odrzuć"></button>
                         </div>
-                    <% // } %> -->
+                    <% } %>
+                    <% if (messages.error) { %>
+                        <div class="alert alert-danger alert-dismissible fade show m-0 text-start" role="alert">
+                            <%= messages.error %>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Odrzuć"></button>
+                        </div>
+                    <% } %>
                     <form class="d-flex flex-column gap-4" action="/auth/register" method="post">
                         <div class="form-floating">
                             <input name="email" type="email" placeholder="Email" class="form-control"
@@ -34,35 +40,6 @@
             </div>
         </div>
     </div>
-
-    <script>
-        // window.addEventListener("load", () => {
-        //     const loginForm = document.getElementById('loginForm');
-
-        //     const loginButton = document.getElementById('loginButton');
-
-        //     function sendData(form) {
-        //         const XHR = new XMLHttpRequest();
-
-        //         const formData = new FormData(form);
-                
-        //         XHR.addEventListener("load", (event) => {
-        //             sendCount++;
-        //             if (sendCount === forms.length) {
-        //                 window.location.reload();
-        //             }
-        //         });
-
-        //         XHR.addEventListener("error", (event) => {
-        //             console.error('Could not update data');
-        //         });
-
-        //         XHR.open("PUT", "/exercises/update");
-
-        //         XHR.send(formData);
-        //     }
-        // });
-    </script>
 
     <%- include('./components/foot'); %>
 </body>

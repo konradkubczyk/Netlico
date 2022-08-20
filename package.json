@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "NODE_ENV=production node ./bin/www",
     "dev": "nodemon ./bin/www",
     "test": "mocha"
   },
@@ -16,6 +16,8 @@
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
     "express": "~4.16.0",
+    "express-flash": "^0.0.2",
+    "express-session": "^1.17.3",
     "http-errors": "~1.6.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.5.2",
