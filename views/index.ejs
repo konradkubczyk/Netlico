@@ -2,12 +2,25 @@
 <html lang="en">
 
 <head>
-  <%- include('./components/head'); %>
+    <%- include('./components/head'); %>
 </head>
 
-<body>
-  <h1>WebWeaver</h1>
-  <h2>index.ejs</h2>
+<body style="background-image: url('/static/img/mymind-tZCrFpSNiIQ-unsplash.jpg'); background-position: center; background-size: cover;">
+    <div style="background-color: #eee9;">
+        <div class="container min-vh-100 d-flex align-items-center p-4">
+            <main>
+                <span class="fs-4 text-dark text-opacity-50">WebWeaver</span>
+                <h1>Your own site in minutes, simple and free.</h1>
+                <p class="fs-5 text-dark text-opacity-75">
+                    Ever wanted to have your personal website, but didn't know how to make it happen? Introducing WebWeaver, our tool for creating microsites quickly and effortlessly. WebWeaver makes online presence accessible to anyone, and with our free plan, your site can be up and running in minutes, at zero cost.
+                </p>
+                <div class="d-flex gap-3">
+                    <a class="btn btn-dark btn-lg" href="/account/register" role="button">Get started</a>
+                    <a class="btn btn-dark-secondary btn-lg" href="/account/login" role="button">Log in</a>
+                </div>
+            </main>
+        </div>
+    </div>
 </body>
 
 </html>
