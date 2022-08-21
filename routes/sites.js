@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-    res.send('sites');
+const Auth = require('../utils/auth');
+
+router.get('/', Auth.isAuthorized(), (req, res, next) => {
+    res.render('sites');
 });
 
 module.exports = router;
