@@ -10,7 +10,6 @@ var flash = require('express-flash');
 // Setup routers
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
-const authRouter = require('./routes/auth');
 const accountRouter = require('./routes/account');
 const sitesRouter = require('./routes/sites');
 
@@ -44,7 +43,6 @@ app.use('/static/bootstrap-icons', express.static(path.join(__dirname, '/node_mo
 // Setup routes
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/auth', authRouter);
 app.use('/account', accountRouter);
 app.use('/sites', sitesRouter);
 

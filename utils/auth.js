@@ -13,7 +13,7 @@ class Auth {
 
     static isAuthorized(expectLoggedIn = true, unauthorizedRedirect = '/account/login') {
         return (req, res, next) => {
-            req.user = this.#deserializeUser(req.cookies.auth_token);
+            req.user = this.#deserializeUser(req.cookies.authToken);
 
             if (expectLoggedIn === Boolean(req.user)) {
                 next();
