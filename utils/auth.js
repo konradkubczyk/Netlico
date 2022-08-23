@@ -11,11 +11,16 @@ class Auth {
         }
     }
 
+    static isLoggedIn(authToken) {
+        return Boolean(this.#deserializeUser(authToken));
+    }
+
     static isAuthorized(expectLoggedIn = true, unauthorizedRedirect = '/account/login') {
         return (req, res, next) => {
-            req.user = this.#deserializeUser(req.cookies.authToken);
+            const user = this.#deserializeUser(req.cookies.authToken);
 
-            if (expectLoggedIn === Boolean(req.user)) {
+            if (expectLoggedIn === Boolean(user)) {
+                req.user = user;
                 next();
             } else {
                 res.redirect(unauthorizedRedirect);

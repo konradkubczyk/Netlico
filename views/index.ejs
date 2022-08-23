@@ -15,8 +15,13 @@
                     Ever wanted to have your personal website, but didn't know how to make it happen? Introducing WebWeaver, our tool for creating microsites quickly and effortlessly. WebWeaver makes online presence accessible to everyone, and with our free plan, your site can be up and running in minutes, at zero cost.
                 </p>
                 <div class="d-flex gap-3">
-                    <a class="btn btn-dark btn-lg" href="/account/register" role="button">Get started</a>
-                    <a class="btn btn-dark-secondary btn-lg" href="/account/login" role="button">Log in</a>
+                    <% if (isLoggedIn) { %>
+                        <a class="btn btn-dark btn-lg" href="/sites" role="button">My sites</a>
+                        <a class="btn btn-dark-secondary btn-lg" href="/account" role="button">Account settings</a>
+                    <% } else { %>
+                        <a class="btn btn-dark btn-lg" href="/account/register" role="button">Get started</a>
+                        <a class="btn btn-dark-secondary btn-lg" href="/account/login" role="button">Log in</a>
+                    <% } %>
                 </div>
             </main>
         </div>

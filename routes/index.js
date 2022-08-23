@@ -1,8 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+
+const Auth = require('../utils/auth');
 
 router.get('/', (req, res, next) => {
-    res.render('index');
+    const isLoggedIn = Auth.isLoggedIn(req.cookies.authToken);
+    res.render('index', { isLoggedIn: isLoggedIn });
 });
 
 module.exports = router;
