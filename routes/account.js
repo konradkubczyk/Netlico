@@ -17,7 +17,7 @@ router.post('/login', async (req, res) => {
     try {
         const authToken = await User.logIn(req.body.email, req.body.password);
         
-        res.cookie("authToken", authToken, {
+        res.cookie('authToken', authToken, {
             httpOnly: true,
             sameSite: true,
             secure: process.env.NODE_ENV === "production"
@@ -44,8 +44,8 @@ router.post('/register', async (req, res) => {
 });
 
 router.delete('/logout', Auth.isAuthorized(), (req, res, next) => {
-    // TODO: Implement logout
-    res.send('Not yet implemented');
+    res.clearCookie('authToken');
+    res.send('Logged out successfully');
 });
 
 module.exports = router;

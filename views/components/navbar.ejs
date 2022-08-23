@@ -24,9 +24,9 @@
                 </div>
                 <ul class="dropdown-menu dropdown-menu-lg-end">
                     <li>
-                        <a class="dropdown-item" href="#">
+                        <a id="logOutLink" class="dropdown-item" href="#" title="Log out">
                             <i class="bi bi-box-arrow-right me-2"></i>
-                            Logout
+                            Log out
                         </a>
                     </li>
                 </ul>
@@ -38,3 +38,18 @@
         <h1><%= title %></h1>
     </div>
 </div>
+
+<script>
+    const logOutLink = document.getElementById('logOutLink');
+
+    logOutLink.addEventListener('click', () => {
+        const xhr = new XMLHttpRequest();
+        xhr.open('DELETE', '/account/logout', true);
+
+        xhr.onload = () => {
+            window.location.replace("/");
+        };
+
+        xhr.send();
+    });
+</script>
