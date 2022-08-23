@@ -2,12 +2,26 @@
 <html lang="en">
 
 <head>
-  <%- include('./components/head'); %>
+    <%- include('./components/head'); %>
 </head>
 
-<body>
-  <h1>An error has occured</h1>
-  <h2>error.ejs</h2>
+<body style="background-image: url('/static/img/sean-fahrenbruch-g95tsUeCohM-unsplash.jpg'); background-position: center; background-size: cover;">
+    <div style="background-color: #eee9;">
+        <div class="container min-vh-100 d-flex align-items-center p-4 justify-content-center">
+            <main>
+                <div class="d-md-flex gap-4">
+                    <div class="d-none d-md-flex align-items-center">
+                        <i class="bi bi-exclamation-diamond" style="font-size: 3.5rem;"></i>
+                    </div>
+                    <div class="vr d-none d-md-block"></div>
+                    <div class="d-md-flex flex-column justify-content-center">
+                        <h2 class="text-dark text-opacity-75"><%= errorCode %></h2>
+                        <h1 class="fw-light mb-0">An error has occured</h1>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
 </body>
 
 </html>
