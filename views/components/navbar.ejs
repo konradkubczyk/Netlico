@@ -8,13 +8,13 @@
         <div class="collapse navbar-collapse mt-2 mt-lg-0" id="navbarText">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex gap-2 gap-lg-4">
                 <li class="nav-item">
-                    <a class="p-0 nav-link active" aria-current="page" href="/sites">Sites</a>
+                    <a class="p-0 nav-link <% if (currentUrl === '/sites') { %> active <% } %>" aria-current="page" href="/sites">Sites</a>
                 </li>
                 <li class="nav-item">
-                    <a class="p-0 nav-link" href="/account">Account</a>
+                    <a class="p-0 nav-link <% if (currentUrl === '/account') { %> active <% } %>" href="/account">Account</a>
                 </li>
                 <li class="nav-item">
-                    <a class="p-0 nav-link" href="/about">About</a>
+                    <a class="p-0 nav-link <% if (currentUrl === '/about') { %> active <% } %>" href="/about">About</a>
                 </li>
             </ul>
             <div class="nav-item dropdown">
@@ -42,14 +42,5 @@
 <script>
     const logOutLink = document.getElementById('logOutLink');
 
-    logOutLink.addEventListener('click', () => {
-        const xhr = new XMLHttpRequest();
-        xhr.open('DELETE', '/account/logout', true);
-
-        xhr.onload = () => {
-            window.location.replace("/");
-        };
-
-        xhr.send();
-    });
+    logOutLink.addEventListener('click', logOut);
 </script>
