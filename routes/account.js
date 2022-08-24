@@ -5,8 +5,7 @@ const Auth = require('../utils/auth');
 const User = require('../utils/user');
 
 router.get('/', Auth.isAuthorized(), (req, res, next) => {
-    // res.send('account');
-    res.send(req.user);
+    res.render('account', {title: 'Your account', userEmail: req.user.userEmail});
 });
 
 router.get('/login', Auth.isAuthorized(expectLoggedIn = false, unauthorizedRedirect = '/account'), (req, res, next) => {
