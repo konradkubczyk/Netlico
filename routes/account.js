@@ -5,7 +5,17 @@ const Auth = require('../utils/auth');
 const User = require('../utils/user');
 
 router.get('/', Auth.isAuthorized(), (req, res, next) => {
-    res.render('account', {title: 'Your account', userEmail: req.user.userEmail});
+    res.render('account', { title: 'Your account', userEmail: req.user.email, currentUrl: req.originalUrl });
+});
+
+router.delete('/', Auth.isAuthorized(), async (req, res, next) => {
+    const user = new User(req.user.id);
+    try {
+        const result = await user.delete();
+        res.status(result.status).send(result.message);
+    } catch (error) {
+        res.status(error.status).send(error.message);
+    }
 });
 
 router.get('/login', Auth.isAuthorized(expectLoggedIn = false, unauthorizedRedirect = '/account'), (req, res, next) => {

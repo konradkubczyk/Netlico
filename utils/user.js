@@ -61,8 +61,8 @@ class User {
         if (isPasswordCorrect) {
             const authToken = jwt.sign(
                 {
-                    userId: user._id,
-                    userEmail: user.email
+                    id: user._id,
+                    email: user.email
                 },
                 this.#jwtSecret,
                 {
@@ -75,6 +75,34 @@ class User {
             throw {
                 status: 400,
                 message: 'Incorrect password'
+            }
+        }
+    }
+
+    constructor(userId) {
+        this.id = userId;
+    }
+
+    async loadUserData() {
+        const userData = await UserData.findById(this.id);
+        this.email = userData.email;
+        this.emailVerified = userData.emailVerified;
+        this.hashedPassword = userData.hashedPassword;
+        this.websites = userData.websites;
+        this.isAdmin = userData.isAdmin;
+    }
+    
+    async delete() {
+        try {
+            await UserData.findByIdAndRemove(this.id);
+            return {
+                status: 200,
+                message: 'Account deleted successfully'
+            }
+        } catch (error) {
+            throw {
+                status: 500,
+                message: 'Could not delete user data'
             }
         }
     }

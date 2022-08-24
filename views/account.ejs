@@ -22,7 +22,7 @@
 <body>
     <%- include('./components/navbar'); %>
 
-    <div class="container pt-sm-2">
+    <div class="container pt-lg-3">
         <div class="d-md-flex align-items-start">
             <div id="settings-menu-tablist" class="nav flex-column flex-sm-row flex-md-column nav-pills nav-fill mb-4 mb-md-0 me-4" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <button class="nav-link text-start active" id="v-pills-email-tab" data-bs-toggle="pill" data-bs-target="#v-pills-email" type="button" role="tab" aria-controls="v-pills-email" aria-selected="true">Email</button>
@@ -58,10 +58,25 @@
                 </div>
                 <div class="tab-pane fade" id="v-pills-privacy" role="tabpanel" aria-labelledby="v-pills-privacy-tab" tabindex="0">
                     <h2 class="fs-4">Privacy settings</h2>
+                    <div class="p-2 rounded border border-danger bg-danger bg-opacity-10">
+                        <h3 class="fs-5 text-danger">Delete account</h3>
+                        <p class="text-danger mb-2">Account deletion is instant and permanent.</p>
+                        <button id="delete-account-button" type="button" class="btn btn-danger">Delete my account now</button>
+                    </div>
                 </div>
             </div>
-        </div>                
+        </div>
     </div>
+
+    <script>
+        const deleteAccountButton = document.getElementById('delete-account-button');
+        deleteAccountButton.addEventListener('click', async () => {
+            await fetch('/account', {
+                method: 'DELETE'
+            });
+            await logOut();
+        });
+    </script>
 
     <%- include('./components/foot'); %>
 </body>
