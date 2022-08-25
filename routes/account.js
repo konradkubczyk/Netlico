@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Auth = require('../utils/auth');
-const User = require('../utils/user');
+const User = require('../models/user');
 
 router.get('/', Auth.isAuthorized(), (req, res, next) => {
     res.render('account', { title: 'Your account', userEmail: req.user.email, currentUrl: req.originalUrl });
