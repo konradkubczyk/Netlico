@@ -30,28 +30,44 @@
                 <button class="nav-link text-start" id="v-pills-payments-tab" data-bs-toggle="pill" data-bs-target="#v-pills-payments" type="button" role="tab" aria-controls="v-pills-payments" aria-selected="false" disabled>Payments</button>
                 <button class="nav-link text-start" id="v-pills-privacy-tab" data-bs-toggle="pill" data-bs-target="#v-pills-privacy" type="button" role="tab" aria-controls="v-pills-privacy" aria-selected="false">Privacy</button>
             </div>
-            <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-content col-12 col-md-8 col-lg-6" id="v-pills-tabContent">
                 <div class="tab-pane fade show active" id="v-pills-email" role="tabpanel" aria-labelledby="v-pills-email-tab" tabindex="0">
                     <h2 class="fs-4">Email settings</h2>
                     <form>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="exampleInputPassword1" class="form-label">Password</label>
-                            <input type="security" class="form-control" id="exampleInputPassword1">
+                            <label for="inputEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="inputEmail">
                         </div>
                         <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                            <input type="checkbox" class="form-check-input" id="newsletterCheck">
+                            <label class="form-check-label" for="newsletterCheck" aria-describedby="newsletterHelp">I would like to receive occasional emails about new features, offerings.</label>
+                            <div id="newsletterHelp" class="form-text">You can always unsubscribe later.</div>
                         </div>
-                        <button type="submit" class="btn btn-dark">Submit</button>
+                        <div class="mb-3">
+                            <label for="inputPassword" class="form-label">Confirm your password</label>
+                            <input type="password" class="form-control" id="inputPassword">
+                        </div>
+                        <button type="submit" class="btn btn-dark">Save</button>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="v-pills-security" role="tabpanel" aria-labelledby="v-pills-security-tab" tabindex="0">
                     <h2 class="fs-4">Security settings</h2>
+                    <h3 class="fs-5">Change password</h3>
+                    <form>
+                        <div class="mb-3">
+                            <label for="inputCurrentPassword" class="form-label">Current password</label>
+                            <input type="password" class="form-control" id="inputCurrentPassword">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputNewPassword" class="form-label">New password</label>
+                            <input type="password" class="form-control" id="inputNewPassword">
+                        </div>
+                        <div class="mb-3">
+                            <label for="inputConfirmNewPassword" class="form-label">Confirm new password</label>
+                            <input type="password" class="form-control" id="inputConfirmNewPassword">
+                        </div>
+                        <button type="submit" class="btn btn-dark">Save</button>
+                    </form>
                 </div>
                 <div class="tab-pane fade" id="v-pills-payments" role="tabpanel" aria-labelledby="v-pills-payments-tab" tabindex="0">
                     <h2 class="fs-4">Payments settings</h2>
