@@ -13,7 +13,7 @@ const PageSchema = new mongoose.Schema({
     content: {
         type: String
     },
-    permalink: {
+    path: {
         type: String
     }
 });
