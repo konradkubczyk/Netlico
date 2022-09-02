@@ -60,7 +60,18 @@ app.use(function (err, req, res, next) {
     // Render the error page
     const errorCode = err.status || 500;
     res.status(errorCode);
-    res.render('error', { errorCode: errorCode });
+
+    let errorMessage = 'An error has occured';
+    switch(errorCode) {
+        case 500:
+            errorMessage = 'Internal server error';
+            break;
+        case 404:
+            errorMessage = 'Not found';
+            break;
+    }
+
+    res.render('error', { errorCode, errorMessage });
 });
 
 module.exports = app;
