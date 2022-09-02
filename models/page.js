@@ -12,6 +12,9 @@ class Page {
         this.#id = pageId;
     }
 
+    /**
+     * Loads all properties of the object from database based on its id
+     */
     async loadData() {
         const pageData = await PageData.findById(this.id);
         this.#website = pageData.website;

@@ -15,6 +15,9 @@ class Site {
         this.#id = siteId;
     }
 
+    /**
+     * Loads all properties of the object from database based on its id
+     */
     async loadData() {
         const siteData = await SiteData.findById(this.id);
         this.#owners = siteData.owners;

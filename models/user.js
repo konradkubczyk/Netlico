@@ -13,6 +13,12 @@ class User {
 
     static #jwtSecret = process.env.JWT_SECRET;
 
+    /**
+     * Hashes provided password and saves new account data in the database
+     * @param {string} email Unique email address for the new account
+     * @param {string} plainPassword Password in plain text
+     * @returns Object containing status code and a message
+     */
     static async register(email, plainPassword) {
         let user;
 
@@ -45,6 +51,12 @@ class User {
         }
     }
 
+    /**
+     * Checks given credentials against data stored in the database and returns authentication token for the client if successful
+     * @param {string} email Email address associated with an account
+     * @param {string} plainPassword Plain text password
+     * @returns JSON Web Token on success or an object containing status code and a message if an error occurs
+     */
     static async logIn(email, plainPassword) {
         let user;
         
@@ -90,6 +102,9 @@ class User {
         this.#id = userId;
     }
 
+    /**
+     * Loads all properties of the object from database based on its id
+     */
     async loadData() {
         const userData = await UserData.findById(this.id);
         this.#email = userData.email;
