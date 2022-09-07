@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="<%= siteData.language %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= site.title %></title>
+</head>
+<body>
+    <div class="splash">
+        <main class="content">
+            <h1><%= site.title %></h1>
+            <h2><%= page.title %></h2>
+            <div>
+                <%- page.content %>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
