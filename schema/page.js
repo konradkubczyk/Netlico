@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const PageSchema = new mongoose.Schema({
-    website: {
-        type: ObjectId
+    site: {
+        type: mongoose.Schema.Types.ObjectId
     },
     title: {
         type: String
