@@ -24,7 +24,7 @@ router.get('/login', Auth.isAuthorized(expectLoggedIn = false, unauthorizedRedir
 
 router.post('/login', async (req, res) => {
     try {
-        const authToken = await User.logIn(req.body.email, req.body.password);
+        const authToken = await User.verify(req.body.email, req.body.password);
         
         res.cookie('authToken', authToken, {
             httpOnly: true,
@@ -43,7 +43,7 @@ router.get('/register', Auth.isAuthorized(expectLoggedIn = false, unauthorizedRe
 
 router.post('/register', async (req, res) => {
     try {
-        const result = await User.register(req.body.email, req.body.password);
+        const result = await User.create(req.body.email, req.body.password);
         req.flash('success', result.message);
         res.status(result.status).redirect('/account/register');
     } catch (error) {
