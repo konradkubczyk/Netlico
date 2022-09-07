@@ -25,8 +25,8 @@ const UserSchema = new mongoose.Schema({
         ],
         unique: false
     },
-    websites: {
-        type: Array,
+    sites: {
+        type: [mongoose.Schema.Types.ObjectId],
         default: []
     },
     isAdmin: {
