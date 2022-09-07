@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const SiteSchema = new mongoose.Schema({
     owners: {
-        type: Array,
+        type: [mongoose.Schema.Types.ObjectId],
         required: [
             true,
             'Website needs to have at least one owner'
@@ -11,6 +11,10 @@ const SiteSchema = new mongoose.Schema({
     tier: {
         type: String,
         default: 'Free'
+    },
+    language: {
+        type: String,
+        default: 'en'
     },
     title: {
         type: String
@@ -35,7 +39,7 @@ const SiteSchema = new mongoose.Schema({
         unique: true
     },
     pages: {
-        type: Array,
+        type: [mongoose.Schema.Types.ObjectId],
         required: [
             true,
             'Website needs to have at least one page'
