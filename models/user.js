@@ -162,15 +162,19 @@ class User {
     
     /**
      * Creates a new site and adds it to the list of sites associated with the account
+     * @returns Id of the newly created site
      */
     async createSite() {
         const site = await Site.create(this.#id);
+        await this.read();
         this.#sites.push(site.id);
         await this.updateProperty('sites', this.#sites);
+        return site.id;
     }
 
     /**
      * Deletes a site and removes it from the list of sites associated with the account
+     * @param {string} siteId Id of the site to be deleted
      */
     async deleteSite(siteId) {
         const site = new Site(siteId);
@@ -179,60 +183,13 @@ class User {
         await this.updateProperty('sites', this.#sites);
     }
 
-    get id() {
-        return this.#id;
-    }
-
-    get email() {
-        if (typeof this.#email !== 'undefined') {
-            return this.#email;
-        }
-        return (async () => {
-            await this.read();
-            return this.#email;
-        })();
-    }
-
-    get hashedPassword() {
-        if (typeof this.#hashedPassword !== 'undefined') {
-            return this.#hashedPassword;
-        }
-        return (async () => {
-            await this.read();
-            return this.#hashedPassword;
-        })();
-    }
-
-    get emailVerified() {
-        if (typeof this.#emailVerified !== 'undefined') {
-            return this.#emailVerified;
-        }
-        return (async () => {
-            await this.read();
-            return this.#emailVerified;
-        })();
-    }
-
-    get sites() {
-        if (typeof this.#sites !== 'undefined') {
-            return this.#sites;
-        }
-        return (async () => {
-            await this.read();
-            return this.#sites;
-        })();
-    }
-
-    get isAdmin() {
-        if (typeof this.#isAdmin !== 'undefined') {
-            return this.#isAdmin;
-        }
-        return (async () => {
-            await this.read();
-            return this.#isAdmin;
-        })();
-    }
-
+    get id() { return this.#id; }
+    get email() { return this.#email; }
+    get emailVerified() { return this.#emailVerified; }
+    get hashedPassword() { return this.#hashedPassword; }
+    get sites() { return this.#sites; }
+    get isAdmin() { return this.#isAdmin; }
+    
     set email(email) {
         this.#email = email;
         return (async () => {

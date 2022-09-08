@@ -22,7 +22,10 @@ class Site {
         const siteData = new SiteData();
         siteData.owners = [ownerId];
         await siteData.save();
-        return new Site(siteData._id);
+        const site = new Site(siteData._id);
+        await site.read();
+        site.createPage();
+        return site;
     }
 
     constructor(siteId) {
@@ -98,109 +101,17 @@ class Site {
         await this.updateProperty('pages', this.#pages);
     }
 
-    get id() {
-        return this.#id;
-    }
-
-    get owners() {
-        if (typeof this.#owners !== 'undefined') {
-            return this.#owners;
-        }
-        return (async () => {
-            await this.read();
-            return this.#owners;
-        })();
-    }
-
-    get tier() {
-        if (typeof this.#tier !== 'undefined') {
-            return this.#tier;
-        }
-        return (async () => {
-            await this.read();
-            return this.#tier;
-        })();
-    }
-
-    get language() {
-        if (typeof this.#language !== 'undefined') {
-            return this.#language;
-        }
-        return (async () => {
-            await this.read();
-            return this.#language;
-        })();
-    }
-
-    get title() {
-        if (typeof this.#title !== 'undefined') {
-            return this.#title;
-        }
-        return (async () => {
-            await this.read();
-            return this.#title;
-        })();
-    }
-
-    get description() {
-        if (typeof this.#description !== 'undefined') {
-            return this.#description;
-        }
-        return (async () => {
-            await this.read();
-            return this.#description;
-        })();
-    }
-
-    get theme() {
-        if (typeof this.#theme !== 'undefined') {
-            return this.#theme;
-        }
-        return (async () => {
-            await this.read();
-            return this.#theme;
-        })();
-    }
-
-    get subdomain() {
-        if (typeof this.#subdomain !== 'undefined') {
-            return this.#subdomain;
-        }
-        return (async () => {
-            await this.read();
-            return this.#subdomain;
-        })();
-    }
-
-    get isPublished() {
-        if (typeof this.#isPublished !== 'undefined') {
-            return this.#isPublished;
-        }
-        return (async () => {
-            await this.read();
-            return this.#isPublished;
-        })();
-    }
-
-    get customDomain() {
-        if (typeof this.#customDomain !== 'undefined') {
-            return this.#customDomain;
-        }
-        return (async () => {
-            await this.read();
-            return this.#customDomain;
-        })();
-    }
-
-    get pages() {
-        if (typeof this.#pages !== 'undefined') {
-            return this.#pages;
-        }
-        return (async () => {
-            await this.read();
-            return this.#pages;
-        })();
-    }
+    get id() { return this.#id; }
+    get owners() { return this.#owners; }
+    get tier() { return this.#tier; }
+    get language() { return this.#language; }
+    get title() { return this.#title; }
+    get description() { return this.#description; }
+    get theme() { return this.#theme; }
+    get subdomain() { return this.#subdomain; }
+    get isPublished() { return this.#isPublished; }
+    get customDomain() { return this.#customDomain; }
+    get pages() { return this.#pages; }
 
     set owners(owners) {
         this.#owners = owners;

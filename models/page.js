@@ -61,59 +61,12 @@ class Page {
         await PageData.findByIdAndDelete(this.#id);
     }
 
-    get id() {
-        return this.#id;
-    }
-
-    get site() {
-        if (typeof this.#site !== 'undefined') {
-            return this.#site;
-        }
-        return (async () => {
-            await this.read();
-            return this.#site;
-        })();
-    }
-
-    get title() {
-        if (typeof this.#title !== 'undefined') {
-            return this.#title;
-        }
-        return (async () => {
-            await this.read();
-            return this.#title;
-        })();
-    }
-
-    get position() {
-        if (typeof this.#position !== 'undefined') {
-            return this.#position;
-        }
-        return (async () => {
-            await this.read();
-            return this.#position;
-        })();
-    }
-
-    get content() {
-        if (typeof this.#content !== 'undefined') {
-            return this.#content;
-        }
-        return (async () => {
-            await this.read();
-            return this.#content;
-        })();
-    }
-
-    get path() {
-        if (typeof this.#path !== 'undefined') {
-            return this.#path;
-        }
-        return (async () => {
-            await this.read();
-            return this.#path;
-        })();
-    }
+    get id() { return this.#id; }
+    get site() { return this.#site; }
+    get title() { return this.#title; }
+    get position() { return this.#position; }
+    get content() { return this.#content; }
+    get path() { return this.#path; }
 
     set site(site) {
         this.#site = site;
