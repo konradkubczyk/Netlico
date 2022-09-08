@@ -17,18 +17,19 @@ const SiteSchema = new mongoose.Schema({
         default: 'en'
     },
     title: {
-        type: String
+        type: String,
+        default: 'New site'
     },
     description: {
-        type: String
+        type: String,
+        default: 'My awesome new site'
     },
     theme: {
         type: Number,
         default: 1,
     },
     subdomain: {
-        type: String,
-        unique: true
+        type: String
     },
     isPublished: {
         type: Boolean,
@@ -39,8 +40,7 @@ const SiteSchema = new mongoose.Schema({
         ]
     },
     customDomain: {
-        type: String,
-        unique: true
+        type: String
     },
     pages: {
         type: [mongoose.Schema.Types.ObjectId],
