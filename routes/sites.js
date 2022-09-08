@@ -29,4 +29,10 @@ router.delete('/:siteId/delete', Auth.isAuthorized(), async (req, res, next) => 
     res.status(200).json({ success: true });
 });
 
+router.delete('/:siteId/:pageId/delete', Auth.isAuthorized(), async (req, res, next) => {
+    const user = new User(req.user.id);
+    await user.deletePage(req.params.siteId, req.params.pageId);
+    res.status(200).json({ success: true });
+});
+
 module.exports = router;

@@ -174,14 +174,40 @@ class User {
     }
 
     /**
-     * Deletes a site and removes it from the list of sites associated with the account
+     * Deletes a user's site and removes it from the list of sites associated with the account
      * @param {string} siteId Id of the site to be deleted
      */
     async deleteSite(siteId) {
-        const site = new Site(siteId);
-        await site.delete();
-        this.#sites = this.#sites.filter(id => id !== siteId);
-        await this.updateProperty('sites', this.#sites);
+        this.read();
+        if (this.#sites.includes(siteId)) {
+            const site = new Site(siteId);
+            await site.delete();
+            this.#sites = this.#sites.filter(id => id !== siteId);
+            await this.updateProperty('sites', this.#sites);
+        }
+    }
+
+    /**
+     * Creates a page in a user's site
+     */
+    async createPage(siteId) {
+        if (this.#sites.includes(siteId)) {
+            const site = new Site(siteId);
+            await site.createPage();
+        }
+    }
+
+    /**
+     * Deletes a page from a user's site
+     * @param {string} siteId Id of the site which page is to be deleted
+     * @param {*} pageId Id of the page to be deleted
+     */
+    async deletePage(siteId, pageId) {
+        await this.read();
+        if (this.#sites.includes(siteId)) {
+            const site = new Site(siteId);
+            await site.deletePage(pageId);
+        }
     }
 
     get id() { return this.#id; }

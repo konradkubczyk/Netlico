@@ -87,6 +87,7 @@ class Site {
      * Creates a new page and adds it to the list of pages associated with the site
      */
     async createPage() {
+        await this.read();
         const page = await Page.create(this.#id);
         this.#pages.push(page.id);
         await this.updateProperty('pages', this.#pages);
@@ -94,12 +95,16 @@ class Site {
 
     /**
      * Deletes a page and removes it from the list of pages associated with the site
+     * @param {string} pageId Id of the page to be deleted
      */
     async deletePage(pageId) {
-        const page = new Page(pageId);
-        await page.delete();
-        this.#pages = this.#pages.filter(id => id !== pageId);
-        await this.updateProperty('pages', this.#pages);
+        await this.read();
+        if (this.#pages.includes(pageId)) {
+            const page = new Page(pageId);
+            await page.delete();
+            this.#pages = this.#pages.filter(id => id !== pageId);
+            await this.updateProperty('pages', this.#pages);
+        }
     }
 
     get id() { return this.#id; }
