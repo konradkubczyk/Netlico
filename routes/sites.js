@@ -23,6 +23,18 @@ router.post('/create', Auth.isAuthorized(), async (req, res, next) => {
     res.status(200).json({ siteId: newSiteId });
 });
 
+router.get('/:siteId', Auth.isAuthorized(), async (req, res, next) => {
+    const user = new User(req.user.id);
+    await user.read();
+    if (user.sites.includes(req.params.siteId)) {
+        const site = new Site(req.params.siteId);
+        await site.read();
+        res.render('editor', { title: site.title, userEmail: req.user.email, currentUrl: req.originalUrl, site });
+    } else {
+        res.status(401).render('error', { errorCode: 401, errorMessage: 'Unauthorized' });
+    }
+});
+
 router.delete('/:siteId/delete', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
     await user.deleteSite(req.params.siteId);

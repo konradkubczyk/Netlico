@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('./components/head'); %>
+</head>
+
+<body>
+    <div class="d-flex vh-100">
+        <div class="col-9">
+            <iframe id="preview" src="<%= site.id %>/preview" frameborder="0" class="d-block h-100 w-100"></iframe>
+        </div>
+        <div class="col-3 shadow p-4 d-flex flex-column justify-content-between">
+            <div>
+                <h1><%= site.title %></h1>
+                <p><%= site.description %></p>
+            </div>
+            <div class="d-grid gap-3">
+                <button class="btn btn-dark w-100" id="publishButton">Publish</button>
+                <button class="btn btn-outline-dark w-100" id="unpublishButton">Download</button>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./components/foot'); %>
+</body>
+
+</html>
