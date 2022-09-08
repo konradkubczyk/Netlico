@@ -22,6 +22,10 @@ const SiteSchema = new mongoose.Schema({
     description: {
         type: String
     },
+    theme: {
+        type: Number,
+        default: 1,
+    },
     subdomain: {
         type: String,
         unique: true

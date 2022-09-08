@@ -8,6 +8,7 @@ class Site {
     #language;
     #title;
     #description;
+    #theme;
     #subdomain;
     #isPublished;
     #customDomain;
@@ -38,6 +39,7 @@ class Site {
         this.#language = siteData.language;
         this.#title = siteData.title;
         this.#description = siteData.description;
+        this.#theme = siteData.theme;
         this.#subdomain = siteData.subdomain;
         this.#isPublished = siteData.isPublished;
         this.#customDomain = siteData.customDomain;
@@ -150,6 +152,16 @@ class Site {
         })();
     }
 
+    get theme() {
+        if (typeof this.#theme !== 'undefined') {
+            return this.#theme;
+        }
+        return (async () => {
+            await this.read();
+            return this.#theme;
+        })();
+    }
+
     get subdomain() {
         if (typeof this.#subdomain !== 'undefined') {
             return this.#subdomain;
@@ -222,6 +234,13 @@ class Site {
         this.#description = description;
         return (async () => {
             await this.updateProperty('description', description);
+        });
+    }
+
+    set theme(theme) {
+        this.#theme = theme;
+        return (async () => {
+            await this.updateProperty('theme', theme);
         });
     }
 
