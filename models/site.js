@@ -32,7 +32,7 @@ class Site {
      * Loads all properties of the object from database based on its id
      */
     async read() {
-        const siteData = await SiteData.findById(this.id);
+        const siteData = await SiteData.findById(this.#id);
         this.#owners = siteData.owners;
         this.#tier = siteData.tier;
         this.#language = siteData.language;

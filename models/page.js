@@ -26,7 +26,7 @@ class Page {
      * Loads all properties of the object from database based on its id
      */
     async read() {
-        const pageData = await PageData.findById(this.id);
+        const pageData = await PageData.findById(this.#id);
         this.#site = pageData.site;
         this.#title = pageData.title;
         this.#position = pageData.position;
@@ -49,7 +49,7 @@ class Page {
      * Updates given property of the object in database
      */
     async updateProperty(property, value) {
-        const pageData = await PageData.findById(this.id);
+        const pageData = await PageData.findById(this.#id);
         pageData[property] = value;
         await pageData.save();
     }
@@ -58,7 +58,7 @@ class Page {
      * Deletes the page from database
      */
     async delete() {
-        await PageData.findByIdAndDelete(this.id);
+        await PageData.findByIdAndDelete(this.#id);
     }
 
     get id() {

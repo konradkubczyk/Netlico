@@ -107,7 +107,7 @@ class User {
      * Loads all properties of the object from database based on its id
      */
     async read() {
-        const userData = await UserData.findById(this.id);
+        const userData = await UserData.findById(this.#id);
         this.#email = userData.email;
         this.#emailVerified = userData.emailVerified;
         this.#hashedPassword = userData.hashedPassword;
@@ -140,10 +140,10 @@ class User {
      */
     async delete() {
         try {
-            await UserData.findByIdAndDelete(this.id);
+            await UserData.findByIdAndDelete(this.#id);
             
             // Delete all sites associated with the account
-            for (const siteId of this.sites) {
+            for (const siteId of this.#sites) {
                 const site = new Site(siteId);
                 await site.delete();
             }
@@ -164,7 +164,7 @@ class User {
      * Creates a new site and adds it to the list of sites associated with the account
      */
     async createSite() {
-        const site = await Site.create(this.id);
+        const site = await Site.create(this.#id);
         this.#sites.push(site.id);
         await this.updateProperty('sites', this.#sites);
     }
