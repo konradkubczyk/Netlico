@@ -140,6 +140,7 @@ class User {
      */
     async delete() {
         try {
+            await this.read();
             await UserData.findByIdAndDelete(this.#id);
             
             // Delete all sites associated with the account

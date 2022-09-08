@@ -73,6 +73,7 @@ class Site {
      * Deletes the site and all its pages from database
      */
     async delete() {
+        await this.read();
         await SiteData.findByIdAndDelete(this.#id);
         
         // Delete all pages associated with the site
