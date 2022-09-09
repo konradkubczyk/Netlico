@@ -12,8 +12,21 @@
         </div>
         <div class="col-3 shadow p-4 d-flex flex-column justify-content-between">
             <div>
-                <h1><%= site.title %></h1>
-                <p><%= site.description %></p>
+                <div class="form-floating mb-3">
+                    <input type="text" class="autoSave form-control" name="site-<%= site.id %>-title" id="siteTitleField" value="<%= site.title %>" placeholder="Title of your site">
+                    <label for="siteTitleField">Site title</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <textarea class="autoSave form-control" name="site-<%= site.id %>-description" id="siteDescriptionTextarea" style="height: 100px" placeholder="Description of your site"><%= site.description %></textarea>
+                    <label for="siteDescriptionTextarea">Description</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="autoSave form-control" name="site-<%= site.id %>-subdomain" id="subdomainField" value="<%= site.subdomain %>" placeholder="Unique subdomain">
+                    <label for="subdomainField">Subdomain</label>
+                </div>
+                <button class="btn btn-outline-dark w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#changeThemeOffcanvas" aria-controls="changeThemeOffcanvas">
+                    Change theme
+                </button>
             </div>
             <div class="d-grid gap-3">
                 <button class="btn btn-dark w-100" id="publishButton">Publish</button>
@@ -21,6 +34,47 @@
             </div>
         </div>
     </div>
+      
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="changeThemeOffcanvas" aria-labelledby="changeThemeOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="changeThemeOffcanvasLabel">Themes</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+    <div class="offcanvas-body">
+        <% for (const theme of themes) { %>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="themeRadios" id="themeRadio<%= theme.id %>" value="<%= theme.id %>" <% if (theme.id == site.theme) { %>checked<% } %>>
+                <label class="form-check-label" for="themeRadio<%= theme.id %>">
+                    <%= theme.name %>
+                </label>
+            </div>
+        <% } %>
+    </div>
+    </div>
+
+    <script>
+        const previewIframe = document.getElementById('preview');
+        const autoSave = document.querySelectorAll('.autoSave');
+        autoSave.forEach((element) => {
+            element.addEventListener('change', async event => {
+                const dataArray = event.target.name.split('-');
+                const data = {
+                    entityType: dataArray[0],
+                    entityId: dataArray[1],
+                    property: dataArray[2],
+                    value: event.target.value
+                };
+                await fetch('/sites/<%= site.id %>/update', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                previewIframe.contentWindow.location.reload();
+            });
+        });
+    </script>
 
     <%- include('./components/foot'); %>
 </body>
