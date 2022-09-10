@@ -74,8 +74,12 @@ router.get('/:siteId/:pageNumber/preview', Auth.isAuthorized(), async (req, res,
                 pages.push(page);
             }
             pages.sort((a, b) => a.position - b.position);
+            pages.forEach(page => {
+                page.number = pages.indexOf(page);
+                page.path = `/sites/${site.id}/${page.number}/preview`;
+            });
 
-            res.render(`themes/${site.theme}`, { site, page: pages[req.params.pageNumber] });
+            res.render(`themes/${site.theme}`, { site, pages, page: pages[req.params.pageNumber] });
         } else {
             res.status(404).render('error', { errorCode: 404, errorMessage: 'No pages found' });
         }
