@@ -34,11 +34,19 @@ router.get('/:siteId', Auth.isAuthorized(), async (req, res, next) => {
         const site = new Site(req.params.siteId);
         await site.read();
 
+        // Read all pages of the site
+        const pages = [];
+        for (const pageId of site.pages) {
+            const page = new Page(pageId);
+            await page.read();
+            pages.push(page);
+        }
+
         // Read list of themes data
         const themesDataPath = path.join(__dirname, '../config/themes.json');
         const themes = JSON.parse(fs.readFileSync(themesDataPath));
 
-        res.render('editor', { title: site.title, userEmail: req.user.email, currentUrl: req.originalUrl, site, themes });
+        res.render('editor', { title: site.title, userEmail: req.user.email, currentUrl: req.originalUrl, site, pages, themes });
     } else {
         res.status(401).render('error', { errorCode: 401, errorMessage: 'Unauthorized' });
     }
@@ -97,7 +105,7 @@ router.patch('/:siteId/update', Auth.isAuthorized(), async (req, res, next) => {
             case 'page':
                 const page = new Page(req.body.entityId);
                 await page.read();
-                if (page.siteId === req.params.siteId) {
+                if (page.site == req.params.siteId) {
                     await page.updateProperty(req.body.property, req.body.value);
                     res.status(200).json({ success: true });
                 } else {

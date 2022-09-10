@@ -12,21 +12,83 @@
         </div>
         <div class="col-3 shadow p-4 d-flex flex-column justify-content-between">
             <div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="autoSave form-control" name="site-<%= site.id %>-title" id="siteTitleField" value="<%= site.title %>" placeholder="Title of your site">
-                    <label for="siteTitleField">Site title</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <textarea class="autoSave form-control" name="site-<%= site.id %>-description" id="siteDescriptionTextarea" style="height: 100px" placeholder="Description of your site"><%= site.description %></textarea>
-                    <label for="siteDescriptionTextarea">Description</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input type="text" class="autoSave form-control" name="site-<%= site.id %>-subdomain" id="subdomainField" value="<%= site.subdomain %>" placeholder="Unique subdomain">
-                    <label for="subdomainField">Subdomain</label>
-                </div>
-                <button class="btn btn-outline-dark w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#changeThemeOffcanvas" aria-controls="changeThemeOffcanvas">
-                    Change theme
-                </button>
+                <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+                            <i class="bi bi-gear-fill"></i>
+                        </button>
+                    </li>
+
+                    <% for (const page of pages) { %>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="pills-<%= page.id %>-tab" data-bs-toggle="pill" data-bs-target="#pills-<%= page.id %>" type="button" role="tab" aria-controls="pills-<%= page.id %>" aria-selected="false">
+                                <%= page.title %>                                
+                            </button>
+                        </li>
+                    <% } %>
+
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">
+                            <i class="bi bi-plus-lg"></i>
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="pills-tabContent">
+
+                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="autoSave refreshEditor form-control" id="site-<%= site.id %>-title" value="<%= site.title %>" placeholder="Title of your site">
+                            <label for="siteTitleField">Site title</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea class="autoSave form-control" id="site-<%= site.id %>-description" style="height: 100px" placeholder="Description of your site"><%= site.description %></textarea>
+                            <label for="siteDescriptionTextarea">Description</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="text" class="autoSave form-control" id="site-<%= site.id %>-subdomain" value="<%= site.subdomain %>" placeholder="Unique subdomain">
+                            <label for="subdomainField">Subdomain</label>
+                        </div>
+
+                        <button class="btn btn-outline-dark w-100" type="button" data-bs-toggle="offcanvas" data-bs-target="#changeThemeOffcanvas" aria-controls="changeThemeOffcanvas">
+                            Change theme
+                        </button>
+
+                        <!-- <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="publishSwitch">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Publish</label>
+                        </div> -->
+                    </div>
+
+                    <% for (const page of pages) { %>
+                        <div class="tab-pane fade" id="pills-<%= page.id %>" role="tabpanel" aria-labelledby="pills-<%= page.id %>-tab" tabindex="0">
+                            <div class="form-floating mb-3">
+                                <input type="text" class="autoSave refreshEditor form-control" id="page-<%= page.id %>-title" value="<%= page.title %>" placeholder="Title of your page">
+                                <label for="page-<%= page.id %>-title">Page title</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <textarea class="autoSave form-control" id="page-<%= page.id %>-content" style="height: 100px" placeholder="Content of your page"><%= page.content %></textarea>
+                                <label for="page-<%= page.id %>-content">Content</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="number" class="autoSave form-control" id="page-<%= page.id %>-position" value="<%= page.position %>" placeholder="Position of the page">
+                                <label for="page-<%= page.position %>-position">Position</label>
+                                <div class="form-text">Position is a number which determines order of tabs in your site's menu. Pages are sorted by this value from low to high, and the first one will also be the home page.</div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="autoSave refreshEditor form-control" id="page-<%= page.id %>-path" value="<%= page.path %>" placeholder="Title of your page">
+                                <label for="page-<%= page.id %>-path">Path</label>
+                                <div class="form-text">This is the path which will be displayed in the address bar when viewing this page, after the domain name.</div>
+                            </div>
+                        </div>
+                    <% } %>
+
+                </div>                  
             </div>
             <div class="d-grid gap-3">
                 <button class="btn btn-dark w-100" id="publishButton">Publish</button>
@@ -57,7 +119,7 @@
         const autoSave = document.querySelectorAll('.autoSave');
         autoSave.forEach((element) => {
             element.addEventListener('change', async event => {
-                const dataArray = event.target.name.split('-');
+                const dataArray = event.target.id.split('-');
                 const data = {
                     entityType: dataArray[0],
                     entityId: dataArray[1],
@@ -71,7 +133,11 @@
                     },
                     body: JSON.stringify(data)
                 });
-                previewIframe.contentWindow.location.reload();
+                if (event.target.classList.contains('refreshEditor')) {
+                    window.location.reload();
+                } else {
+                    previewIframe.contentWindow.location.reload();
+                }
             });
         });
     </script>
