@@ -16,7 +16,6 @@ class Site {
 
     /**
      * Creates a new site in database
-     * 
      */
     static async create(ownerId){
         const siteData = new SiteData();
@@ -102,7 +101,7 @@ class Site {
         if (this.#pages.includes(pageId)) {
             const page = new Page(pageId);
             await page.delete();
-            this.#pages = this.#pages.filter(id => id !== pageId);
+            this.#pages = this.#pages.filter(id => id != pageId);
             await this.updateProperty('pages', this.#pages);
         }
     }
