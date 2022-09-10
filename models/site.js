@@ -118,75 +118,16 @@ class Site {
     get customDomain() { return this.#customDomain; }
     get pages() { return this.#pages; }
 
-    set owners(owners) {
-        this.#owners = owners;
-        return (async () => {
-            await this.updateProperty('owners', owners);
-        });
-    }
-
-    set tier(tier) {
-        this.#tier = tier;
-        return (async () => {
-            await this.updateProperty('tier', tier);
-        });
-    }
-
-    set language(language) {
-        this.#language = language;
-        return (async () => {
-            await this.updateProperty('language', language);
-        });
-    }
-
-    set title(title) {
-        this.#title = title;
-        return (async () => {
-            await this.updateProperty('title', title);
-        });
-    }
-
-    set description(description) {
-        this.#description = description;
-        return (async () => {
-            await this.updateProperty('description', description);
-        });
-    }
-
-    set theme(theme) {
-        this.#theme = theme;
-        return (async () => {
-            await this.updateProperty('theme', theme);
-        });
-    }
-
-    set subdomain(subdomain) {
-        this.#subdomain = subdomain;
-        return (async () => {
-            await this.updateProperty('subdomain', subdomain);
-        });
-    }
-
-    set isPublished(isPublished) {
-        this.#isPublished = isPublished;
-        return (async () => {
-            await this.updateProperty('isPublished', isPublished);
-        });
-    }
-
-    set customDomain(customDomain) {
-        this.#customDomain = customDomain;
-        return (async () => {
-            await this.updateProperty('customDomain', customDomain);
-        });
-    }
-
-    set pages(pages) {
-        this.#pages = pages;
-        return (async () => {
-            await this.updateProperty('pages', pages);
-        });
-    }
+    set owners(owners) { this.#owners = owners; }
+    set tier(tier) { this.#tier = tier; }
+    set language(language) { this.#language = language; }
+    set title(title) { this.#title = title; }
+    set description(description) { this.#description = description; }
+    set theme(theme) { this.#theme = theme; }
+    set subdomain(subdomain) { this.#subdomain = subdomain; }
+    set isPublished(isPublished) { this.#isPublished = isPublished; }
+    set customDomain(customDomain) { this.#customDomain = customDomain; }
+    set pages(pages) { this.#pages = pages; }
 }
 
 module.exports = Site;

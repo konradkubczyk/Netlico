@@ -68,40 +68,11 @@ class Page {
     get content() { return this.#content; }
     get path() { return this.#path; }
 
-    set site(site) {
-        this.#site = site;
-        return (async () => {
-            await this.updateProperty('site', site);
-        });
-    }
-
-    set title(title) {
-        this.#title = title;
-        return (async () => {
-            await this.updateProperty('title', title);
-        });
-    }
-
-    set position(position) {
-        this.#position = position;
-        return (async () => {
-            await this.updateProperty('position', position);
-        });
-    }
-
-    set content(content) {
-        this.#content = content;
-        return (async () => {
-            await this.updateProperty('content', content);
-        });
-    }
-
-    set path(path) {
-        this.#path = path;
-        return (async () => {
-            await this.updateProperty('path', path);
-        });
-    }
+    set site(site) { this.#site = site; }
+    set title(title) { this.#title = title; }
+    set position(position) { this.#position = position; }
+    set content(content) { this.#content = content; }
+    set path(path) { this.#path = path; }
 }
 
 module.exports = Page;

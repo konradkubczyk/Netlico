@@ -217,40 +217,12 @@ class User {
     get sites() { return this.#sites; }
     get isAdmin() { return this.#isAdmin; }
     
-    set email(email) {
-        this.#email = email;
-        return (async () => {
-            await this.updateProperty('email', email);
-        });
-    }
 
-    set emailVerified(emailVerified) {
-        this.#emailVerified = emailVerified;
-        return (async () => {
-            await this.updateProperty('emailVerified', emailVerified);
-        });
-    }
-
-    set hashedPassword(hashedPassword) {
-        this.#hashedPassword = hashedPassword;
-        return (async () => {
-            await this.updateProperty('hashedPassword', hashedPassword);
-        });
-    }
-
-    set sites(sites) {
-        this.#sites = sites;
-        return (async () => {
-            await this.updateProperty('sites', sites);
-        });
-    }
-
-    set isAdmin(isAdmin) {
-        this.#isAdmin = isAdmin;
-        return (async () => {
-            await this.updateProperty('isAdmin', isAdmin);
-        });
-    }
+    set email(email) { this.#email = email; }
+    set emailVerified(emailVerified) { this.#emailVerified = emailVerified; }
+    set hashedPassword(hashedPassword) { this.#hashedPassword = hashedPassword; }
+    set sites(sites) { this.#sites = sites; }
+    set isAdmin(isAdmin) { this.#isAdmin = isAdmin; }
 }
 
 module.exports = User;
