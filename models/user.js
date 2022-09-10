@@ -178,11 +178,11 @@ class User {
      * @param {string} siteId Id of the site to be deleted
      */
     async deleteSite(siteId) {
-        this.read();
+        await this.read();
         if (this.#sites.includes(siteId)) {
             const site = new Site(siteId);
             await site.delete();
-            this.#sites = this.#sites.filter(id => id !== siteId);
+            this.#sites = this.#sites.filter(id => id != siteId);
             await this.updateProperty('sites', this.#sites);
         }
     }
