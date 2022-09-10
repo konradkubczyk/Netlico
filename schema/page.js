@@ -9,14 +9,16 @@ const PageSchema = new mongoose.Schema({
         default: 'New page'
     },
     position: {
-        type: Number
+        type: Number,
+        default: 1
     },
     content: {
         type: String,
         default: 'This is a new page, let\'s add some content!'
     },
     path: {
-        type: String
+        type: String,
+        default: 'new-page'
     }
 });
 
