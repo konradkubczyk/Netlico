@@ -1,6 +1,10 @@
 [
     {
-        "id": "1",
-        "name": "Breeze"
+        "id": 1,
+        "name": "Code Light"
+    },
+    {
+        "id": 2,
+        "name": "Code Dark"
     }
 ]
