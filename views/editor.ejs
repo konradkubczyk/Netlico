@@ -34,7 +34,7 @@
 
                 <% for (const page of pages) { %>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="pills-<%= page.id %>-tab" data-bs-toggle="pill" data-bs-target="#pills-<%= page.id %>" type="button" role="tab" aria-controls="pills-<%= page.id %>" aria-selected="false">
+                        <button class="switchPreviewPage nav-link" id="pills-<%= page.id %>-tab" data-bs-toggle="pill" data-bs-target="#pills-<%= page.id %>" type="button" role="tab" aria-controls="pills-<%= page.id %>" aria-selected="false">
                             <%= page.title %>                                
                         </button>
                     </li>
@@ -73,8 +73,6 @@
                                 <input class="form-check-input" type="checkbox" role="switch" id="publishSwitch">
                                 <label class="form-check-label" for="flexSwitchCheckDefault">Publish</label>
                             </div> -->
-
-                            
                         </div>
                         <div class="d-grid gap-3">
                             <button class="btn btn-dark w-100" id="publishButton">
@@ -135,8 +133,8 @@
     <div class="offcanvas-body">
         <% for (const theme of themes) { %>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="themeRadios" id="themeRadio<%= theme.id %>" value="<%= theme.id %>" <% if (theme.id == site.theme) { %>checked<% } %>>
-                <label class="form-check-label" for="themeRadio<%= theme.id %>">
+                <input class="autoSave form-check-input" type="radio" name="themeRadios" id="site-<%= site.id %>-theme-<%= theme.id %>" value="<%= theme.id %>" <% if (theme.id == site.theme) { %>checked<% } %>>
+                <label class="form-check-label" for="site-<%= site.id %>-theme-<%= theme.id %>">
                     <%= theme.name %>
                 </label>
             </div>
@@ -197,8 +195,18 @@
                 if (element.classList.contains('quitEditor')) {
                     window.location.href = '/sites';
                 } else {
-                    window.location.reload();
+                    window.location = '/sites/<%= site.id %>';
                 }
+            });
+        }
+
+        let previewPageNumber = 0;
+        const switchPreviewPage = document.getElementsByClassName('switchPreviewPage');
+        for (const element of switchPreviewPage) {
+            element.addEventListener('click', event => {
+                const switchPreviewPageArray = Array.from(switchPreviewPage);
+                previewPageNumber = switchPreviewPageArray.indexOf(element);
+                previewIframe.src = '/sites/<%= site.id %>/' + previewPageNumber + '/preview';
             });
         }
     </script>
