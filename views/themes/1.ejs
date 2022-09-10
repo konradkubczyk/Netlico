@@ -1,19 +1,66 @@
 <!DOCTYPE html>
 <html lang="<%= site.language %>">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="description" content="<%= site.description %>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= site.title %></title>
+    <title>
+        <%= site.title %>
+    </title>
+    <style>
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            color: #444;
+            margin: 0;
+        }
+
+        div.splash {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        main.content {
+            width: 400px;
+        }
+
+        nav.menu {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        a {
+            color: #666;
+        }
+    </style>
 </head>
+
 <body>
     <div class="splash">
         <main class="content">
-            <h1><%= site.title %></h1>
-            <h2><%= page.title %></h2>
+            <h1>
+                <%= site.title %>
+            </h1>
+            <nav class="menu">
+                <% for (const singlePage of pages) { %>
+                    <a href="<%= singlePage.path %>">
+                        <%= singlePage.title %>
+                    </a>
+                <% } %>
+            </nav>
+            <h2>
+                <%= page.title %>
+            </h2>
             <div>
                 <%- page.content %>
             </div>
         </main>
     </div>
 </body>
+
 </html>
