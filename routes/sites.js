@@ -65,15 +65,20 @@ router.get('/:siteId/:pageNumber/preview', Auth.isAuthorized(), async (req, res,
         const site = new Site(req.params.siteId);
         await site.read();
 
-        // Reads pages of the site
-        const pages = [];
-        for (const pageNumber of site.pages) {
-            const page = new Page(pageNumber);
-            await page.read();
-            pages.push(page);
+        // Reads pages of the site if the site has any, display error message otherwise
+        if (site.pages.length > 0) {
+            const pages = [];
+            for (const pageNumber of site.pages) {
+                const page = new Page(pageNumber);
+                await page.read();
+                pages.push(page);
+            }
+            pages.sort((a, b) => a.position - b.position);
+
+            res.render(`themes/${site.theme}`, { site, page: pages[req.params.pageNumber] });
+        } else {
+            res.status(404).render('error', { errorCode: 404, errorMessage: 'No pages found' });
         }
-        pages.sort((a, b) => a.position - b.position);
-        res.render(`themes/${site.theme}`, { site, page: pages[req.params.pageNumber] });
     } else {
         res.status(401).render('error', { errorCode: 401, errorMessage: 'Unauthorized' });
     }
@@ -81,14 +86,32 @@ router.get('/:siteId/:pageNumber/preview', Auth.isAuthorized(), async (req, res,
 
 router.delete('/:siteId/delete', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
-    await user.deleteSite(req.params.siteId);
-    res.status(200).json({ success: true });
+
+    switch (req.body.entityType) {
+        case 'site':
+            await user.deleteSite(req.body.entityId);
+            res.status(200).json({ message: 'Site deleted' });
+            break;
+        case 'page':
+            await user.deletePage(req.params.siteId, req.body.entityId);
+            res.status(200).json({ message: 'Page deleted' });
+            break;
+        default:
+            res.status(400).json({ message: 'Invalid entity type' });
+            return;
+    }
 });
 
-router.delete('/:siteId/:pageId/delete', Auth.isAuthorized(), async (req, res, next) => {
+router.post('/:siteId/create-page', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
-    await user.deletePage(req.params.siteId, req.params.pageId);
-    res.status(200).json({ success: true });
+    await user.read();
+    if (user.sites.includes(req.params.siteId)) {
+        const site = new Site(req.params.siteId);
+        await site.createPage();
+        res.status(200).json({ success: true });
+    } else {
+        res.status(401).render('error', { errorCode: 401, errorMessage: 'Unauthorized' });
+    }
 });
 
 router.patch('/:siteId/update', Auth.isAuthorized(), async (req, res, next) => {
