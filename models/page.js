@@ -28,12 +28,19 @@ class Page {
      * Loads all properties of the object from database based on its id
      */
     async read() {
-        const pageData = await PageData.findById(this.#id);
-        this.#site = pageData.site;
-        this.#title = pageData.title;
-        this.#position = pageData.position;
-        this.#content = pageData.content;
-        this.#path = pageData.path;
+        try {
+            const pageData = await PageData.findById(this.#id);
+            this.#site = pageData.site;
+            this.#title = pageData.title;
+            this.#position = pageData.position;
+            this.#content = pageData.content;
+            this.#path = pageData.path;
+        } catch (error) {
+            throw {
+                status: 500,
+                message: 'Could not read page data'
+            }
+        }
     }
 
     /**

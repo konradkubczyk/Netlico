@@ -19,7 +19,7 @@ class Site {
      * @param {string} ownerId Id of the owner of the new site, to whom the site will be assigned
      * @returns {Site} Site object with properties already loaded from database
      */
-    static async create(ownerId){
+    static async create(ownerId) {
         const siteData = new SiteData();
         siteData.owners = [ownerId];
         await siteData.save();
@@ -53,17 +53,25 @@ class Site {
      * Loads all properties of the object from database based on its id
      */
     async read() {
-        const siteData = await SiteData.findById(this.#id);
-        this.#owners = siteData.owners;
-        this.#tier = siteData.tier;
-        this.#language = siteData.language;
-        this.#title = siteData.title;
-        this.#description = siteData.description;
-        this.#theme = siteData.theme;
-        this.#subdomain = siteData.subdomain;
-        this.#isPublished = siteData.isPublished;
-        this.#customDomain = siteData.customDomain;
-        this.#pages = siteData.pages;
+        try {
+            const siteData = await SiteData.findById(this.#id);
+            
+            this.#owners = siteData.owners;
+            this.#tier = siteData.tier;
+            this.#language = siteData.language;
+            this.#title = siteData.title;
+            this.#description = siteData.description;
+            this.#theme = siteData.theme;
+            this.#subdomain = siteData.subdomain;
+            this.#isPublished = siteData.isPublished;
+            this.#customDomain = siteData.customDomain;
+            this.#pages = siteData.pages;
+        } catch (error) {
+            throw {
+                status: 500,
+                message: 'Could not read site data'
+            }
+        }        
     }
 
     /**

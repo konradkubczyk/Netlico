@@ -116,12 +116,20 @@ class User {
      * Loads all properties of the object from database based on its id
      */
     async read() {
-        const userData = await UserData.findById(this.#id);
-        this.#email = userData.email;
-        this.#emailVerified = userData.emailVerified;
-        this.#hashedPassword = userData.hashedPassword;
-        this.#sites = userData.sites;
-        this.#isAdmin = userData.isAdmin;
+        try {
+            const userData = await UserData.findById(this.#id);
+            
+            this.#email = userData.email;
+            this.#emailVerified = userData.emailVerified;
+            this.#hashedPassword = userData.hashedPassword;
+            this.#sites = userData.sites;
+            this.#isAdmin = userData.isAdmin;
+        } catch (error) {
+            throw {
+                status: 500,
+                message: 'Could not load user data'
+            }
+        }
     }
 
     /**
