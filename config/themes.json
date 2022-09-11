@@ -1,10 +1,30 @@
 [
     {
         "id": 1,
-        "name": "Code Light"
+        "name": "Letter"
     },
     {
         "id": 2,
-        "name": "Code Dark"
+        "name": "Solarized"
+    },    
+    {
+        "id": 3,
+        "name": "Classic"
+    },
+    {
+        "id": 4,
+        "name": "Nightly"
+    },
+    {
+        "id": 5,
+        "name": "Twisted"
+    },
+    {
+        "id": 6,
+        "name": "Marine"
+    },
+    {
+        "id": 7,
+        "name": "Contrast"
     }
 ]
