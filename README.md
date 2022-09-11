@@ -1,17 +1,66 @@
-### Node Express template project
+# Netlico
 
-This project is based on a GitLab [Project Template](https://docs.gitlab.com/ee/gitlab-basics/create-project.html).
+> This project is in an **early stage of development**. Features, design, licensing, terms and other details are subject to change. Our public instance, including user-generated content, can be deleted at any time without further notice.
 
-Improvements can be proposed in the [original project](https://gitlab.com/gitlab-org/project-templates/express).
+## Description
 
-### CI/CD with Auto DevOps
+Netlico is a web app created with Express.js which offers simple microsite creation features. These microsites are small websites that include mainly plain text content divided into pages. They can be customized with various themes available withing the app and thanks to their lightweight architecture they are highly performant.
 
-This template is compatible with [Auto DevOps](https://docs.gitlab.com/ee/topics/autodevops/).
+## Features
 
-If Auto DevOps is not already enabled for this project, you can [turn it on](https://docs.gitlab.com/ee/topics/autodevops/#enabling-auto-devops) in the project settings.
+Currently, Netlico's core functionality includes:
 
-### Developing with Gitpod
+ - live preview
+ - custom subdomains
+ - themes
+ - page creation/deletion and reordering
+ - multiple sites per account
+ - custom site title and SEO description
+ - public access toggle
+ - custom page paths
+ - instant account data deletion
 
-This template has a fully-automated dev setup for [Gitpod](https://docs.gitlab.com/ee/integration/gitpod.html).
+ The project is still developing and new features (including breaking changes) may arrive soon.
 
-If you open this project in Gitpod, you'll get all Node dependencies pre-installed and Express will open a web preview.
+## Installation
+
+### Prerequisites
+
+Before you begin installation of the project, please make sure that you have access to the following resources:
+
+ - Git version control system
+ - Recent version of Node.js
+ - MongoDB database
+
+### Cloning the repository
+
+Open the folder in which you would like to store the application and clone this repository.
+
+```bash
+git clone https://gitlab.com/konradkubczyk/netlico.git
+```
+
+### Installation of dependencies
+
+Use npm to install dependencies.
+
+```bash
+npm install
+```
+
+### Configure environment variables
+
+When in development, supply the required variables using .env file at the root directory of the project. Create a new file according to the scheme below.
+
+```yml
+MONGODB_URI='[Your MongoDB connection URI]'
+JWT_SECRET='[Random secret used for JSON Web Token signing]'
+SESSION_SECRET='[Random secret used for session management]'
+COOKIE_SECRET='[Random secret used for cookies]'
+```
+
+Replace placeholders, including square brackets, with appropriate data. Remember, the required information are confidential. **Do not share your .env file.**
+
+### Run the app
+
+Use `npm start` for production environment, `npm dev` for development (with app restarts on file changes) or `npm test` to run the included test suite.
