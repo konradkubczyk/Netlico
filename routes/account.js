@@ -30,7 +30,7 @@ router.post('/login', async (req, res) => {
             httpOnly: true,
             sameSite: true,
             secure: process.env.NODE_ENV === "production"
-        }).status(200).redirect('/');
+        }).status(200).redirect('/sites');
     } catch (error) {
         req.flash('error', error.message);
         res.status(error.status).redirect('/account/login');
@@ -55,6 +55,61 @@ router.post('/register', async (req, res) => {
 router.delete('/logout', Auth.isAuthorized(), (req, res, next) => {
     res.clearCookie('authToken');
     res.send('Logged out successfully');
+});
+
+router.post('/update/email', Auth.isAuthorized(), async (req, res, next) => {
+    const user = new User(req.user.id);
+    await user.read();
+
+    if (req.body.newEmail !== req.body.newEmailRepeat) {
+        req.flash('error', 'Emails do not match');
+        res.status(400).redirect('/account');
+    } else if (req.body.newEmail === user.email) {
+        req.flash('error', 'New email is the same as the old one');
+        res.status(400).redirect('/account');
+    } else {
+        try {
+            const authToken = await User.verify(user.email, req.body.currentPassword);
+            try {
+                await user.updateProperty('email', req.body.newEmail);
+                res.clearCookie('authToken').status(200).redirect('/account');
+            } catch (error) {
+                req.flash('error', 'Could not update email');
+                res.status(error.status).redirect('/account');
+            }
+        } catch (error) {
+            req.flash('error', error.message);
+            res.status(500).redirect('/account');
+        }
+    }
+});
+
+router.post('/update/password', Auth.isAuthorized(), async (req, res, next) => {
+    const user = new User(req.user.id);
+    await user.read();
+
+    if (req.body.newPassword !== req.body.newPasswordRepeat) {
+        req.flash('error', 'Passwords do not match');
+        res.status(400).redirect('/account');
+    } else if (req.body.newPassword === req.body.currentPassword) {
+        req.flash('error', 'New and current passwords must be different');
+        res.status(400).redirect('/account');
+    } else {
+        try {
+            await User.verify(user.email, req.body.currentPassword);
+            try {
+                const hashedPassword = await User.hashPassword(req.body.newPassword);
+                await user.updateProperty('hashedPassword', hashedPassword);
+                res.clearCookie('authToken').status(200).redirect('/account');
+            } catch (error) {
+                req.flash('error', 'Could not update password');
+                res.status(error.status).redirect('/account');
+            }
+        } catch (error) {
+            req.flash('error', error.message);
+            res.status(500).redirect('/account');
+        }
+    }
 });
 
 module.exports = router;

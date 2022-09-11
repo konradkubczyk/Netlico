@@ -18,16 +18,27 @@
                 <button class="nav-link text-start" id="v-pills-privacy-tab" data-bs-toggle="pill" data-bs-target="#v-pills-privacy" type="button" role="tab" aria-controls="v-pills-privacy" aria-selected="false">Privacy</button>
             </div>
             <div class="tab-content col-12 col-md-8 col-lg-6" id="v-pills-tabContent">
+                <% if (messages.error) { %>
+                    <div class="alert alert-danger alert-dismissible fade show m-0 text-start mb-3" role="alert">
+                        <%= messages.error %>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Reject"></button>
+                    </div>
+                <% } %>
                 <div class="tab-pane fade show active" id="v-pills-email" role="tabpanel" aria-labelledby="v-pills-email-tab" tabindex="0">
                     <h2 class="fs-4">Email settings</h2>
-                    <form>
+                    <h3 class="fs-5">Current email</h3>
+                    <div class="mb-3">
+                        <input type="email" class="form-control" id="readonlyEmail" value="<%= userEmail %>" readonly>
+                    </div>
+                    <h3 class="fs-5">Change email</h3>
+                    <form action="/account/update/email" method="POST">
                         <div class="mb-3">
-                            <label for="inputEmail" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="inputEmail">
+                            <label for="newEmailRepeatInput" class="form-label">New email address</label>
+                            <input type="email" class="form-control" id="newEmailRepeatInput" name="newEmail" required>
                         </div>
                         <div class="mb-3">
-                            <label for="inputConfirmEmail" class="form-label">Confirm email</label>
-                            <input type="email" class="form-control" id="inputConfirmEmail">
+                            <label for="confirmNewEmailInput" class="form-label">Repeat new email address</label>
+                            <input type="email" class="form-control" id="confirmNewEmailInput" name="newEmailRepeat" required>
                         </div>
                         <!-- <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="newsletterCheck">
@@ -35,8 +46,8 @@
                             <div id="newsletterHelp" class="form-text">You can always unsubscribe later.</div>
                         </div> -->
                         <div class="mb-3">
-                            <label for="inputPassword" class="form-label">Confirm your password</label>
-                            <input type="password" class="form-control" id="inputPassword">
+                            <label for="passwordInput" class="form-label">Current password</label>
+                            <input type="password" class="form-control" id="passwordInput" name="currentPassword" required>
                         </div>
                         <button type="submit" class="btn btn-dark">Save</button>
                     </form>
@@ -44,18 +55,18 @@
                 <div class="tab-pane fade" id="v-pills-security" role="tabpanel" aria-labelledby="v-pills-security-tab" tabindex="0">
                     <h2 class="fs-4">Security settings</h2>
                     <h3 class="fs-5">Change password</h3>
-                    <form>
+                    <form action="/account/update/password" method="POST">
                         <div class="mb-3">
                             <label for="inputCurrentPassword" class="form-label">Current password</label>
-                            <input type="password" class="form-control" id="inputCurrentPassword">
+                            <input type="password" class="form-control" id="inputCurrentPassword" name="currentPassword">
                         </div>
                         <div class="mb-3">
                             <label for="inputNewPassword" class="form-label">New password</label>
-                            <input type="password" class="form-control" id="inputNewPassword">
+                            <input type="password" class="form-control" id="inputNewPassword" name="newPassword">
                         </div>
                         <div class="mb-3">
                             <label for="inputConfirmNewPassword" class="form-label">Confirm new password</label>
-                            <input type="password" class="form-control" id="inputConfirmNewPassword">
+                            <input type="password" class="form-control" id="inputConfirmNewPassword" name="newPasswordRepeat">
                         </div>
                         <button type="submit" class="btn btn-dark">Save</button>
                     </form>

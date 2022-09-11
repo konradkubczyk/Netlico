@@ -15,6 +15,20 @@ class User {
     static #jwtSecret = process.env.JWT_SECRET;
 
     /**
+     * Creates a hash of the provided password
+     */
+    static async hashPassword(plainPassword) {
+        try {
+            return await bcryptjs.hash(plainPassword, 10);
+        } catch (error) {
+            throw {
+                status: 500,
+                message: 'Could not hash the password'
+            };
+        }
+    }
+
+    /**
      * Hashes provided password and saves new account data in the database
      * @param {string} email Unique email address for the new account
      * @param {string} plainPassword Password in plain text
@@ -23,18 +37,11 @@ class User {
     static async create(email, plainPassword) {
         let user;
 
-        try {
-            const hashedPassword = await bcryptjs.hash(plainPassword, 10);
-            user = new UserData({
-                email: email,
-                hashedPassword: hashedPassword
-            });
-        } catch (error) {
-            throw {
-                status: 500,
-                message: 'Could not hash the password'
-            };
-        }
+        const hashedPassword = await this.hashPassword(plainPassword);
+        user = new UserData({
+            email: email,
+            hashedPassword: hashedPassword
+        });
 
         try {
             await user.save();
