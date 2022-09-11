@@ -48,6 +48,7 @@ router.get('/:siteId', Auth.isAuthorized(), async (req, res, next) => {
             await page.read();
             pages.push(page);
         }
+        pages.sort((a, b) => a.position - b.position);
 
         // Read list of themes data
         const themesDataPath = path.join(__dirname, '../config/themes.json');
