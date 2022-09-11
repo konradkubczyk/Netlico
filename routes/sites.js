@@ -10,15 +10,22 @@ const Site = require('../models/site');
 const Page = require('../models/page');
 
 router.get('/', Auth.isAuthorized(), async (req, res, next) => {
+    // Read user data
     const user = new User(req.user.id);
     await user.read();
+
+    // Get all sites of the current user
     const sites = [];
     for (const siteId of user.sites) {
         const site = new Site(siteId);
         await site.read();
         sites.push(site);
     }
-    res.render('sites', { title: 'Your sites', userEmail: req.user.email, currentUrl: req.originalUrl, sites });
+
+    // Get current domain of the app (with optional port)
+    const appDomain = req.get('host');
+
+    res.render('sites', { title: 'Your sites', userEmail: req.user.email, currentUrl: req.originalUrl, sites, appDomain });
 });
 
 router.post('/create', Auth.isAuthorized(), async (req, res, next) => {

@@ -16,8 +16,8 @@
                             <% if (!site.isPublished) { %>
                                 Unpublished
                             <% } else if (!site.customDomain) { %>
-                                <a href="https://<%= site.subdomain %>.<%= process.env.DOMAIN %>" class="text-decoration-none text-dark" target="_blank" style="z-index: 2;">
-                                    <%= site.subdomain %>.<%= process.env.DOMAIN %>
+                                <a href="https://<%= site.subdomain %>.<%= appDomain %>" class="text-decoration-none text-dark" target="_blank" style="z-index: 2;">
+                                    <%= site.subdomain %>.<%= appDomain %>
                                 </a>
                             <% } else { %>
                                 <a href="https://<%= site.customDomain %>" class="text-decoration-none text-dark" style="z-index: 2;">
