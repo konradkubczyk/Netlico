@@ -23,6 +23,11 @@ Database.connect();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// Change default subdomain offset for development to work with [subdomain].localhost:[port] address scheme
+if (app.get('env') === 'development') {
+    app.set('subdomain offset', 1);
+}
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -61,6 +66,7 @@ app.use(function (err, req, res, next) {
     const errorCode = err.status || 500;
     res.status(errorCode);
 
+    // Handle typical errors
     let errorMessage = 'An error has occured';
     switch(errorCode) {
         case 500:
