@@ -10,7 +10,7 @@ router.get('/:path?', async (req, res, next) => {
     if (req.subdomains.length) {
         // Find the site associated with the subdomain if one exists
         const site = await Site.findBySubdomain(req.subdomains[0]);
-        
+
         if (site) {
             site.render(res, null, req.params.path);
         } else {

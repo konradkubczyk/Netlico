@@ -69,7 +69,7 @@ class User {
      */
     static async verify(email, plainPassword) {
         let user;
-        
+
         try {
             user = await UserData.findOne({
                 email: email
@@ -118,7 +118,7 @@ class User {
     async read() {
         try {
             const userData = await UserData.findById(this.#id);
-            
+
             this.#email = userData.email;
             this.#emailVerified = userData.emailVerified;
             this.#hashedPassword = userData.hashedPassword;
@@ -153,7 +153,7 @@ class User {
         userData[property] = value;
         await userData.save();
     }
-    
+
     /**
      * Deletes the account from the database
      */
@@ -161,7 +161,7 @@ class User {
         try {
             await this.read();
             await UserData.findByIdAndDelete(this.#id);
-            
+
             // Delete all sites associated with the account
             for (const siteId of this.#sites) {
                 const site = new Site(siteId);
@@ -179,7 +179,7 @@ class User {
             }
         }
     }
-    
+
     /**
      * Creates a new site and adds it to the list of sites associated with the account
      * @returns Id of the newly created site

@@ -55,7 +55,7 @@ class Site {
     async read() {
         try {
             const siteData = await SiteData.findById(this.#id);
-            
+
             this.#owners = siteData.owners;
             this.#tier = siteData.tier;
             this.#language = siteData.language;
@@ -71,7 +71,7 @@ class Site {
                 status: 500,
                 message: 'Could not read site data'
             }
-        }        
+        }
     }
 
     /**
@@ -102,7 +102,7 @@ class Site {
     async delete() {
         await this.read();
         await SiteData.findByIdAndDelete(this.#id);
-        
+
         // Delete all pages associated with the site
         for (const pageId of this.#pages) {
             const page = new Page(pageId);
@@ -148,7 +148,7 @@ class Site {
         await this.read();
         if (editorMode && !this.#owners.includes(user.id)) {
             return res.status(401).render('error', { errorCode: 401, errorMessage: 'Unauthorized' });
-        } else if(!this.#isPublished && !editorMode) {
+        } else if (!this.#isPublished && !editorMode) {
             return res.status(404).render('error', { errorCode: 403, errorMessage: 'Not published' });
         } else {
             // Reads pages of the site if the site has any, display error message otherwise
