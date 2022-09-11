@@ -56,7 +56,7 @@
                             </div>
 
                             <div class="form-floating mb-3">
-                                <textarea class="autoSave form-control" id="site-<%= site.id %>-description" style="height: 100px" placeholder="Description of your site"><%= site.description %></textarea>
+                                <textarea class="autoSave form-control" id="site-<%= site.id %>-description" style="height: 150px" placeholder="Description of your site"><%= site.description %></textarea>
                                 <label for="siteDescriptionTextarea">Description</label>
                             </div>
 
@@ -69,10 +69,10 @@
                                 Change theme
                             </button>
 
-                            <!-- <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="publishSwitch">
-                                <label class="form-check-label" for="flexSwitchCheckDefault">Publish</label>
-                            </div> -->
+                            <div class="form-check form-switch">
+                                <input class="autoSave form-check-input" type="checkbox" role="switch" id="site-<%= site.id %>-isPublished" <% if (site.isPublished) { %>checked<% } %>>
+                                <label class="form-check-label" for="site-<%= site.id %>-isPublished">Make my site public</label>
+                            </div>                              
                         </div>
                         <div class="d-grid gap-3">
                             <button class="btn btn-dark w-100" id="publishButton">
@@ -99,12 +99,12 @@
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <textarea class="autoSave form-control" id="page-<%= page.id %>-content" style="height: 100px" placeholder="Content of your page"><%= page.content %></textarea>
+                                    <textarea class="autoSave form-control" id="page-<%= page.id %>-content" style="height: 400px" placeholder="Content of your page"><%= page.content %></textarea>
                                     <label for="page-<%= page.id %>-content">Content</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="autoSave form-control" id="page-<%= page.id %>-position" value="<%= page.position %>" placeholder="Position of the page">
+                                    <input type="number" class="autoSave refreshEditor form-control" id="page-<%= page.id %>-position" value="<%= page.position %>" placeholder="Position of the page">
                                     <label for="page-<%= page.position %>-position">Position</label>
                                     <div class="form-text">Position is a number which determines order of tabs in your site's menu. Pages are sorted by this value from low to high, and the first one will also be the home page.</div>
                                 </div>
@@ -154,6 +154,11 @@
                     property: dataArray[2],
                     value: event.target.value
                 };
+
+                if (event.target.type == 'checkbox') {
+                    data.value = event.target.checked;
+                }
+
                 await fetch('/sites/<%= site.id %>/update', {
                     method: 'PATCH',
                     headers: {
