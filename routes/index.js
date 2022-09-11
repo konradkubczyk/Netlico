@@ -14,9 +14,11 @@ router.get('/:path?', async (req, res, next) => {
             const domain = req.get('host').split('.').slice(1).join('.');
             res.redirect(`https://${domain}`);
         }
-    } else {
+    } else if (!req.params.path) {
         const isLoggedIn = Auth.isLoggedIn(req.cookies.authToken);
         res.render('index', { isLoggedIn: isLoggedIn });
+    } else {
+        next();
     }
 });
 
