@@ -3,20 +3,7 @@
 
 <head>
     <%- include('./components/head'); %>
-    <style>
-        .nav-pills {
-            --bs-nav-pills-link-active-color: var(--bs-white);
-            --bs-nav-pills-link-active-bg: var(--bs-dark);
-            --bs-nav-link-color: var(--bs-dark);
-            --bs-nav-link-hover-color: var(--bs-black);
-        }
-
-        @media (max-width: 767.98px) { 
-            #settings-menu-tablist {
-                width: 100%;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/custom.css">
 </head>
 
 <body>
@@ -38,11 +25,15 @@
                             <label for="inputEmail" class="form-label">Email address</label>
                             <input type="email" class="form-control" id="inputEmail">
                         </div>
-                        <div class="mb-3 form-check">
+                        <div class="mb-3">
+                            <label for="inputConfirmEmail" class="form-label">Confirm email</label>
+                            <input type="email" class="form-control" id="inputConfirmEmail">
+                        </div>
+                        <!-- <div class="mb-3 form-check">
                             <input type="checkbox" class="form-check-input" id="newsletterCheck">
                             <label class="form-check-label" for="newsletterCheck" aria-describedby="newsletterHelp">I would like to receive occasional emails about new features, offerings.</label>
                             <div id="newsletterHelp" class="form-text">You can always unsubscribe later.</div>
-                        </div>
+                        </div> -->
                         <div class="mb-3">
                             <label for="inputPassword" class="form-label">Confirm your password</label>
                             <input type="password" class="form-control" id="inputPassword">
