@@ -171,7 +171,13 @@ class Site {
                     }
                 }
 
-                return res.render(`themes/${this.#theme}`, { site: this, pages, page });
+                // Include page title in site title outside of homepage
+                let pageTitle = this.#title;
+                if (pages.indexOf(page) !== 0) {
+                    pageTitle = `${page.title} - ${pageTitle}`;
+                }
+
+                return res.render(`themes/${this.#theme}`, { site: this, pages, page, pageTitle });
             } else {
                 return res.status(404).render('error', { errorCode: 404, errorMessage: 'No pages found' });
             }
