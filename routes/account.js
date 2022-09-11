@@ -29,7 +29,7 @@ router.get('/login', Auth.isAuthorized(expectLoggedIn = false, unauthorizedRedir
 router.post('/login', async (req, res) => {
     try {
         const authToken = await User.verify(req.body.email, req.body.password);
-        
+
         res.cookie('authToken', authToken, {
             httpOnly: true,
             sameSite: true,
@@ -67,14 +67,18 @@ router.delete('/logout', Auth.isAuthorized(), (req, res, next) => {
 // POST /account/update/email - Updates user's email address
 router.post('/update/email', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
-    await user.read();
+    try {
+        await user.read();
+    } catch (error) {
+        return res.render('error', { errorCode: error.status, errorMessage: error.message });
+    }
 
     // Check if the new emails match
     if (req.body.newEmail !== req.body.newEmailRepeat) {
         req.flash('error', 'Emails do not match');
         res.status(400).redirect('/account');
 
-    // Check if the new email is different from the old one
+        // Check if the new email is different from the old one
     } else if (req.body.newEmail === user.email) {
         req.flash('error', 'New email is the same as the old one');
         res.status(400).redirect('/account');
@@ -82,7 +86,7 @@ router.post('/update/email', Auth.isAuthorized(), async (req, res, next) => {
         try {
             // Check provided password
             const authToken = await User.verify(user.email, req.body.currentPassword);
-            
+
             // Update email
             try {
                 await user.updateProperty('email', req.body.newEmail);
@@ -101,14 +105,18 @@ router.post('/update/email', Auth.isAuthorized(), async (req, res, next) => {
 // POST /account/update/password - Updates user's email password
 router.post('/update/password', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
-    await user.read();
+    try {
+        await user.read();
+    } catch (error) {
+        return res.render('error', { errorCode: error.status, errorMessage: error.message });
+    }
 
     // Check if new passwords match
     if (req.body.newPassword !== req.body.newPasswordRepeat) {
         req.flash('error', 'Passwords do not match');
         res.status(400).redirect('/account');
 
-    // Check if the new password is the same as the old one provided by the user
+        // Check if the new password is the same as the old one provided by the user
     } else if (req.body.newPassword === req.body.currentPassword) {
         req.flash('error', 'New and current passwords must be different');
         res.status(400).redirect('/account');
@@ -116,7 +124,7 @@ router.post('/update/password', Auth.isAuthorized(), async (req, res, next) => {
         try {
             // Verify current password provided by the user
             await User.verify(user.email, req.body.currentPassword);
-            
+
             // Update password
             try {
                 const hashedPassword = await User.hashPassword(req.body.newPassword);

@@ -13,7 +13,11 @@ const Page = require('../models/page');
 router.get('/', Auth.isAuthorized(), async (req, res, next) => {
     // Read user data
     const user = new User(req.user.id);
-    await user.read();
+    try {
+        await user.read();
+    } catch (error) {
+        return res.render('error', { errorCode: error.status, errorMessage: error.message });
+    }
 
     // Get all sites of the current user
     const sites = [];
@@ -39,8 +43,12 @@ router.post('/create', Auth.isAuthorized(), async (req, res, next) => {
 // GET /sites/:siteId - Renders the site editor
 router.get('/:siteId', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
-    await user.read();
-    
+    try {
+        await user.read();
+    } catch (error) {
+        return res.render('error', { errorCode: error.status, errorMessage: error.message });
+    }
+
     // Check if the user is authorized to edit the site
     if (user.sites.includes(req.params.siteId)) {
         const site = new Site(req.params.siteId);
@@ -76,7 +84,11 @@ router.get('/:siteId/preview', Auth.isAuthorized(), async (req, res, next) => {
 // GET /sites/:siteId/:pageNumber/preview - Renders the given site page's preview
 router.get('/:siteId/:pageNumber/preview', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
-    await user.read();
+    try {
+        await user.read();
+    } catch (error) {
+        return res.render('error', { errorCode: error.status, errorMessage: error.message });
+    }
 
     const site = new Site(req.params.siteId);
     site.render(res, user, null, true, req.params.pageNumber);
@@ -104,7 +116,11 @@ router.delete('/:siteId/delete', Auth.isAuthorized(), async (req, res, next) => 
 // POST /sites/:siteId/create-page - Creates a new page and adds it to the site
 router.post('/:siteId/create-page', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
-    await user.read();
+    try {
+        await user.read();
+    } catch (error) {
+        return res.render('error', { errorCode: error.status, errorMessage: error.message });
+    }
 
     // Check if the user is authorized to edit the site
     if (user.sites.includes(req.params.siteId)) {
@@ -119,7 +135,11 @@ router.post('/:siteId/create-page', Auth.isAuthorized(), async (req, res, next) 
 // PATCH /sites/:siteID/update - Updates a user-modifiable property of a site/page
 router.patch('/:siteId/update', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
-    await user.read();
+    try {
+        await user.read();
+    } catch (error) {
+        return res.render('error', { errorCode: error.status, errorMessage: error.message });
+    }
 
     // Check if the user is authorized to edit the site
     if (user.sites.includes(req.params.siteId)) {
@@ -148,7 +168,7 @@ router.patch('/:siteId/update', Auth.isAuthorized(), async (req, res, next) => {
                     } catch (error) {
                         res.status(400).json({ success: false });
                     }
-                    
+
                 } else {
                     res.status(400).json({ message: 'Invalid property' });
                 }
