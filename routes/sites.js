@@ -132,8 +132,25 @@ router.patch('/:siteId/update', Auth.isAuthorized(), async (req, res, next) => {
                 if (modifiableProperties.includes(req.body.property)) {
                     const site = new Site(req.params.siteId);
                     await site.read();
-                    await site.updateProperty(req.body.property, req.body.value);
-                    res.status(200).json({ success: true });
+
+                    // Normalize the value of the property
+                    let newValue = req.body.value;
+                    if (req.body.property === 'isPublished') {
+                        newValue = newValue === 'true';
+                    } else if (req.body.property === 'subdomain') {
+                        newValue = newValue.toLowerCase();
+                        newValue = newValue.replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
+                    } else if (['language', 'title', 'description'].includes(req.body.property)) {
+                        newValue = newValue.replace(/<script.*?>.*?<\/script>/g, '');
+                    }
+
+                    try {
+                        await site.updateProperty(req.body.property, newValue);
+                        res.status(200).json({ success: true });
+                    } catch (error) {
+                        res.status(400).json({ success: false });
+                    }
+                    
                 } else {
                     res.status(400).json({ message: 'Invalid property' });
                 }
@@ -149,8 +166,21 @@ router.patch('/:siteId/update', Auth.isAuthorized(), async (req, res, next) => {
 
                     // Check if the page belongs to the site
                     if (page.site == req.params.siteId) {
-                        await page.updateProperty(req.body.property, req.body.value);
-                        res.status(200).json({ success: true });
+                        // Normalize the value of the property
+                        let newValue = req.body.value;
+                        if (req.body.property === 'path') {
+                            newValue = newValue.toLowerCase();
+                            newValue = newValue.replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
+                        } else if (['title', 'content'].includes(req.body.property)) {
+                            newValue = newValue.replace(/<script.*?>.*?<\/script>/g, '');
+                        }
+
+                        try {
+                            await page.updateProperty(req.body.property, newValue);
+                            res.status(200).json({ success: true });
+                        } catch (error) {
+                            res.status(400).json({ success: false });
+                        }
                     } else {
                         res.status(401).json({ success: false });
                     }
