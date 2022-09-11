@@ -63,9 +63,13 @@ class Site {
      * Updates given property of the object in database
      */
     async updateProperty(property, value) {
-        const siteData = await SiteData.findById(this.#id);
-        siteData[property] = value;
-        await siteData.save();
+        try {
+            const siteData = await SiteData.findById(this.#id);
+            siteData[property] = value;
+            await siteData.save();
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     /**

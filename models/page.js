@@ -49,9 +49,13 @@ class Page {
      * Updates given property of the object in database
      */
     async updateProperty(property, value) {
-        const pageData = await PageData.findById(this.#id);
-        pageData[property] = value;
-        await pageData.save();
+        try {
+            const pageData = await PageData.findById(this.#id);
+            pageData[property] = value;
+            await pageData.save();
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     /**
