@@ -30,6 +30,7 @@ class Page {
     async read() {
         try {
             const pageData = await PageData.findById(this.#id);
+
             this.#site = pageData.site;
             this.#title = pageData.title;
             this.#position = pageData.position;
