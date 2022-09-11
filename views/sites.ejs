@@ -12,15 +12,15 @@
             <% for (const site of sites) { %>
                 <div class="card text-bg-light">
                     <div class="card-header d-flex align-items-center justify-content-between">
-                        <span>
+                        <span style="z-index: 2;">
                             <% if (!site.isPublished) { %>
                                 Unpublished
                             <% } else if (!site.customDomain) { %>
-                                <a href="https://<%= site.subdomain %>.<%= appDomain %>" class="text-decoration-none text-dark" target="_blank" style="z-index: 2;">
+                                <a href="https://<%= site.subdomain %>.<%= appDomain %>" class="text-dark" target="_blank">
                                     <%= site.subdomain %>.<%= appDomain %>
                                 </a>
                             <% } else { %>
-                                <a href="https://<%= site.customDomain %>" class="text-decoration-none text-dark" style="z-index: 2;">
+                                <a href="https://<%= site.customDomain %>" class="text-dark" style="z-index: 2;">
                                     <%= site.customDomain %>
                                 </a>
                             <% } %>
