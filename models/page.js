@@ -10,6 +10,8 @@ class Page {
 
     /**
      * Creates a new page in database
+     * @param {string} siteId - ID of the site the new page will be attached to
+     * @returns {Page} - Newly created page
      */
     static async create(siteId) {
         const pageData = new PageData();
@@ -47,6 +49,8 @@ class Page {
 
     /**
      * Updates given property of the object in database
+     * @param {string} property Name of the property to be updated
+     * @param {any} value New value of the property
      */
     async updateProperty(property, value) {
         const pageData = await PageData.findById(this.#id);

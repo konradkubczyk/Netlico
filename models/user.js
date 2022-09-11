@@ -16,6 +16,8 @@ class User {
 
     /**
      * Creates a hash of the provided password
+     * @param {string} plainPassword Password in plain text
+     * @returns Hashed password or an object containing status code and a message if an error occurs
      */
     static async hashPassword(plainPassword) {
         try {
@@ -135,6 +137,8 @@ class User {
 
     /**
      * Updates given property of the object in the database
+     * @param {string} property Name of the property to be updated
+     * @param {any} value New value of the property
      */
     async updateProperty(property, value) {
         const userData = await UserData.findById(this.#id);
@@ -223,7 +227,6 @@ class User {
     get hashedPassword() { return this.#hashedPassword; }
     get sites() { return this.#sites; }
     get isAdmin() { return this.#isAdmin; }
-    
 
     set email(email) { this.#email = email; }
     set emailVerified(emailVerified) { this.#emailVerified = emailVerified; }

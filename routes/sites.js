@@ -9,6 +9,7 @@ const User = require('../models/user');
 const Site = require('../models/site');
 const Page = require('../models/page');
 
+// GET /sites - Renders sites management page
 router.get('/', Auth.isAuthorized(), async (req, res, next) => {
     // Read user data
     const user = new User(req.user.id);
@@ -28,15 +29,19 @@ router.get('/', Auth.isAuthorized(), async (req, res, next) => {
     res.render('sites', { title: 'Your sites', userEmail: req.user.email, currentUrl: req.originalUrl, sites, appDomain });
 });
 
+// POST /sites/create - Creates a new site
 router.post('/create', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
     const newSiteId = await user.createSite();
     res.status(200).json({ siteId: newSiteId });
 });
 
+// GET /sites/:siteId - Renders the site editor
 router.get('/:siteId', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
     await user.read();
+    
+    // Check if the user is authorized to edit the site
     if (user.sites.includes(req.params.siteId)) {
         const site = new Site(req.params.siteId);
         await site.read();
@@ -54,6 +59,7 @@ router.get('/:siteId', Auth.isAuthorized(), async (req, res, next) => {
         const themesDataPath = path.join(__dirname, '../config/themes.json');
         const themes = JSON.parse(fs.readFileSync(themesDataPath));
 
+        // Get current domain of the app (with optional port)
         const appDomain = req.get('host');
 
         res.render('editor', { title: site.title, userEmail: req.user.email, currentUrl: req.originalUrl, site, pages, themes, appDomain });
@@ -62,10 +68,12 @@ router.get('/:siteId', Auth.isAuthorized(), async (req, res, next) => {
     }
 });
 
+// GET /sites/:siteId/preview - Redirect to the preview of the main page of the site
 router.get('/:siteId/preview', Auth.isAuthorized(), async (req, res, next) => {
     res.redirect(`/sites/${req.params.siteId}/0/preview`);
 });
 
+// GET /sites/:siteId/:pageNumber/preview - Renders the given site page's preview
 router.get('/:siteId/:pageNumber/preview', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
     await user.read();
@@ -74,6 +82,7 @@ router.get('/:siteId/:pageNumber/preview', Auth.isAuthorized(), async (req, res,
     site.render(res, user, null, true, req.params.pageNumber);
 });
 
+// DELETE /sites/:siteId/delete - Deletes the site and all associated pages or a page
 router.delete('/:siteId/delete', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
 
@@ -92,9 +101,12 @@ router.delete('/:siteId/delete', Auth.isAuthorized(), async (req, res, next) => 
     }
 });
 
+// POST /sites/:siteId/create-page - Creates a new page and adds it to the site
 router.post('/:siteId/create-page', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
     await user.read();
+
+    // Check if the user is authorized to edit the site
     if (user.sites.includes(req.params.siteId)) {
         const site = new Site(req.params.siteId);
         await site.createPage();
@@ -104,13 +116,17 @@ router.post('/:siteId/create-page', Auth.isAuthorized(), async (req, res, next) 
     }
 });
 
+// PATCH /sites/:siteID/update - Updates a user-modifiable property of a site/page
 router.patch('/:siteId/update', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
     await user.read();
+
+    // Check if the user is authorized to edit the site
     if (user.sites.includes(req.params.siteId)) {
         let modifiableProperties = [];
         switch (req.body.entityType) {
             case 'site':
+                // List of user-modifiable site properties
                 modifiableProperties = ['language', 'title', 'description', 'theme', 'subdomain', 'isPublished', 'customDomain'];
 
                 if (modifiableProperties.includes(req.body.property)) {
@@ -124,11 +140,14 @@ router.patch('/:siteId/update', Auth.isAuthorized(), async (req, res, next) => {
 
                 break;
             case 'page':
+                // List of user-modifiable page properties
                 modifiableProperties = ['title', 'position', 'content', 'path'];
 
                 if (modifiableProperties.includes(req.body.property)) {
                     const page = new Page(req.body.entityId);
                     await page.read();
+
+                    // Check if the page belongs to the site
                     if (page.site == req.params.siteId) {
                         await page.updateProperty(req.body.property, req.body.value);
                         res.status(200).json({ success: true });

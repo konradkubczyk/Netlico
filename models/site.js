@@ -15,7 +15,9 @@ class Site {
     #pages;
 
     /**
-     * Creates a new site in database
+     * Creates a new site in database and attaches a new page to it
+     * @param {string} ownerId Id of the owner of the new site, to whom the site will be assigned
+     * @returns {Site} Site object with properties already loaded from database
      */
     static async create(ownerId){
         const siteData = new SiteData();
@@ -77,6 +79,8 @@ class Site {
 
     /**
      * Updates given property of the object in database
+     * @param {string} property Name of the property to be updated
+     * @param {any} value New value of the property
      */
     async updateProperty(property, value) {
         const siteData = await SiteData.findById(this.#id);
@@ -122,6 +126,15 @@ class Site {
         }
     }
 
+    /**
+     * Renders the requested site, adapting it to the context of the request
+     * @param {Response} res Response object to which the site will be sent
+     * @param {User} user 
+     * @param {string} pagePath 
+     * @param {boolean} editorMode 
+     * @param {number} pageNumber 
+     * @returns Renders the requested site on the supplied response object
+     */
     async render(res, user = null, pagePath = null, editorMode = false, pageNumber = 0) {
         // Check if the user owns the site when in editor mode
         await this.read();
@@ -164,7 +177,6 @@ class Site {
             }
         }
     }
-
 
     get id() { return this.#id; }
     get owners() { return this.#owners; }
