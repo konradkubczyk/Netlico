@@ -135,9 +135,7 @@ router.patch('/:siteId/update', Auth.isAuthorized(), async (req, res, next) => {
 
                     // Normalize the value of the property
                     let newValue = req.body.value;
-                    if (req.body.property === 'isPublished') {
-                        newValue = newValue === 'true';
-                    } else if (req.body.property === 'subdomain') {
+                    if (req.body.property === 'subdomain') {
                         newValue = newValue.toLowerCase();
                         newValue = newValue.replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
                     } else if (['language', 'title', 'description'].includes(req.body.property)) {
