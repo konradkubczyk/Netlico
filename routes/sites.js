@@ -129,21 +129,35 @@ router.patch('/:siteId/update', Auth.isAuthorized(), async (req, res, next) => {
     const user = new User(req.user.id);
     await user.read();
     if (user.sites.includes(req.params.siteId)) {
+        let modifiableProperties = [];
         switch (req.body.entityType) {
             case 'site':
-                const site = new Site(req.params.siteId);
-                await site.read();
-                await site.updateProperty(req.body.property, req.body.value);
-                res.status(200).json({ success: true });
-                break;
-            case 'page':
-                const page = new Page(req.body.entityId);
-                await page.read();
-                if (page.site == req.params.siteId) {
-                    await page.updateProperty(req.body.property, req.body.value);
+                modifiableProperties = ['language', 'title', 'description', 'theme', 'subdomain', 'isPublished', 'customDomain'];
+
+                if (modifiableProperties.includes(req.body.property)) {
+                    const site = new Site(req.params.siteId);
+                    await site.read();
+                    await site.updateProperty(req.body.property, req.body.value);
                     res.status(200).json({ success: true });
                 } else {
-                    res.status(401).json({ success: false });
+                    res.status(400).json({ message: 'Invalid property' });
+                }
+
+                break;
+            case 'page':
+                modifiableProperties = ['title', 'position', 'content', 'path'];
+
+                if (modifiableProperties.includes(req.body.property)) {
+                    const page = new Page(req.body.entityId);
+                    await page.read();
+                    if (page.site == req.params.siteId) {
+                        await page.updateProperty(req.body.property, req.body.value);
+                        res.status(200).json({ success: true });
+                    } else {
+                        res.status(401).json({ success: false });
+                    }
+                } else {
+                    res.status(400).json({ message: 'Invalid property' });
                 }
                 break;
             default:
