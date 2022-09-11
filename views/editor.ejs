@@ -78,7 +78,7 @@
                             </div>
 
                             <div class="form-floating mb-3">
-                                <input type="text" class="autoSave form-control" id="site-<%= site.id %>-subdomain" value="<%= site.subdomain %>" placeholder="Unique subdomain">
+                                <input type="text" class="autoSave refreshEditor form-control" id="site-<%= site.id %>-subdomain" value="<%= site.subdomain %>" placeholder="Unique subdomain">
                                 <label for="subdomainField">Subdomain</label>
                             </div>
 
@@ -87,18 +87,24 @@
                             </button>
 
                             <div class="form-check form-switch">
-                                <input class="autoSave form-check-input" type="checkbox" role="switch" id="site-<%= site.id %>-isPublished" <% if (site.isPublished) { %>checked<% } %>>
-                                <label class="form-check-label" for="site-<%= site.id %>-isPublished">Make my site public</label>
+                                <input class="autoSave refreshEditor form-check-input" type="checkbox" role="switch" id="site-<%= site.id %>-isPublished" <% if (site.isPublished) { %>checked<% } %> <% if (!site.subdomain && !site.isPublished) { %>disabled<% } %>>
+                                <label class="form-check-label" for="site-<%= site.id %>-isPublished">Publish my site</label>
+                                <% if (!site.subdomain) { %>
+                                    <div class="form-text">Please choose your subdomain first.</div>
+                                <% } else if (site.isPublished) { %>
+                                    <div class="form-text">Your site is available at <a class="text-dark" href="https://<%= site.subdomain %>.<%= appDomain %>" target="_blank"><%= site.subdomain %>.<%= appDomain %></a>.</div>
+                                <% } else { %>
+                                    <div class="form-text">Toggle to make your site accessible at <%= site.subdomain %>.<%= appDomain %>.</div>
+                                <% } %>
                             </div>                              
                         </div>
                         <div class="d-grid gap-3">
-                            <button class="btn btn-dark w-100" id="publishButton">
-                                Publish
-
-                            </button>
-                            <button class="btn btn-outline-dark w-100" id="unpublishButton">
-                                Download
-                            </button>
+                            <% if (site.isPublished) { %>
+                            <a class="btn btn-outline-dark w-100" id="viewSiteLink" href="https://<%= site.subdomain %>.<%= appDomain %>" target="_blank">
+                                View site
+                                <i class="bi bi-box-arrow-up-right ms-1"></i>
+                            </a>
+                            <% } %>
                             <button class="deleteEntity quitEditor btn btn-outline-danger w-100" id="site-<%= site.id %>-delete">
                                 Delete site
                             </button>

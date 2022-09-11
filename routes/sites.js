@@ -54,7 +54,9 @@ router.get('/:siteId', Auth.isAuthorized(), async (req, res, next) => {
         const themesDataPath = path.join(__dirname, '../config/themes.json');
         const themes = JSON.parse(fs.readFileSync(themesDataPath));
 
-        res.render('editor', { title: site.title, userEmail: req.user.email, currentUrl: req.originalUrl, site, pages, themes });
+        const appDomain = req.get('host');
+
+        res.render('editor', { title: site.title, userEmail: req.user.email, currentUrl: req.originalUrl, site, pages, themes, appDomain });
     } else {
         res.status(401).render('error', { errorCode: 401, errorMessage: 'Unauthorized' });
     }
@@ -68,32 +70,8 @@ router.get('/:siteId/:pageNumber/preview', Auth.isAuthorized(), async (req, res,
     const user = new User(req.user.id);
     await user.read();
 
-    // Check if the user owns the site
-    if (user.sites.includes(req.params.siteId)) {
-        const site = new Site(req.params.siteId);
-        await site.read();
-
-        // Reads pages of the site if the site has any, display error message otherwise
-        if (site.pages.length > 0) {
-            const pages = [];
-            for (const pageNumber of site.pages) {
-                const page = new Page(pageNumber);
-                await page.read();
-                pages.push(page);
-            }
-            pages.sort((a, b) => a.position - b.position);
-            pages.forEach(page => {
-                page.number = pages.indexOf(page);
-                page.path = `/sites/${site.id}/${page.number}/preview`;
-            });
-
-            res.render(`themes/${site.theme}`, { site, pages, page: pages[req.params.pageNumber] });
-        } else {
-            res.status(404).render('error', { errorCode: 404, errorMessage: 'No pages found' });
-        }
-    } else {
-        res.status(401).render('error', { errorCode: 401, errorMessage: 'Unauthorized' });
-    }
+    const site = new Site(req.params.siteId);
+    site.render(res, user, null, true, req.params.pageNumber);
 });
 
 router.delete('/:siteId/delete', Auth.isAuthorized(), async (req, res, next) => {

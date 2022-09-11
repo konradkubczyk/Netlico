@@ -27,6 +27,22 @@ class Site {
         return site;
     }
 
+    /**
+     * Find a site by its subdomain
+     * @param {string} subdomain Subdomain of the site to be found
+     * @returns {Site} Site object with properties already loaded from database
+     */
+    static async findBySubdomain(subdomain) {
+        const siteData = await SiteData.findOne({ subdomain: subdomain });
+        if (siteData) {
+            const site = new Site(siteData._id);
+            await site.read();
+            return site;
+        } else {
+            return null;
+        }
+    }
+
     constructor(siteId) {
         this.#id = siteId;
     }
@@ -109,6 +125,50 @@ class Site {
             await this.updateProperty('pages', this.#pages);
         }
     }
+
+    async render(res, user = null, pagePath = null, editorMode = false, pageNumber = 0) {
+        // Check if the user owns the site when in editor mode
+        await this.read();
+        if (editorMode && !this.#owners.includes(user.id)) {
+            return res.status(401).render('error', { errorCode: 401, errorMessage: 'Unauthorized' });
+        } else if(!this.#isPublished && !editorMode) {
+            return res.status(404).render('error', { errorCode: 403, errorMessage: 'Not published' });
+        } else {
+            // Reads pages of the site if the site has any, display error message otherwise
+            if (this.#pages.length > 0) {
+                const pages = [];
+                for (const pageNumber of this.#pages) {
+                    const page = new Page(pageNumber);
+                    await page.read();
+                    pages.push(page);
+                }
+                pages.sort((a, b) => a.position - b.position);
+
+                let page = pages[0];
+
+                // Change paths of the pages for editor mode
+                if (editorMode) {
+                    pages.forEach(page => {
+                        page.number = pages.indexOf(page);
+                        page.path = `/sites/${this.#id}/${page.number}/preview`;
+                    });
+                    page = pages[pageNumber];
+                } else {
+                    if (pagePath) {
+                        page = pages.find(page => page.path === pagePath);
+                        if (!page) {
+                            return res.status(404).render('error', { errorCode: 404, errorMessage: 'Page not found' });
+                        }
+                    }
+                }
+
+                return res.render(`themes/${this.#theme}`, { site: this, pages, page });
+            } else {
+                return res.status(404).render('error', { errorCode: 404, errorMessage: 'No pages found' });
+            }
+        }
+    }
+
 
     get id() { return this.#id; }
     get owners() { return this.#owners; }

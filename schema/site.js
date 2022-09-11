@@ -29,7 +29,12 @@ const SiteSchema = new mongoose.Schema({
         default: 1,
     },
     subdomain: {
-        type: String
+        type: String,
+        unique: [
+            true,
+            'Subdomain already taken'
+        ],
+        sparse: true
     },
     isPublished: {
         type: Boolean,
