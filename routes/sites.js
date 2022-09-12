@@ -159,7 +159,7 @@ router.patch('/:siteId/update', Auth.isAuthorized(), async (req, res, next) => {
                         newValue = newValue.toLowerCase();
                         newValue = newValue.replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
                     } else if (['language', 'title', 'description'].includes(req.body.property)) {
-                        newValue = newValue.replace(/<script.*?>.*?<\/script>/g, '');
+                        newValue = newValue.replace(/<script.*?>.*?<\/script>/gms, '').replace(/<script.*?\/?>/gms, '');
                     }
 
                     try {
@@ -190,8 +190,8 @@ router.patch('/:siteId/update', Auth.isAuthorized(), async (req, res, next) => {
                             newValue = newValue.toLowerCase();
                             newValue = newValue.replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-').replace(/^-|-$/g, '');
                         } else if (['title', 'content'].includes(req.body.property)) {
-                            newValue = newValue.replace(/<script.*?>.*?<\/script>/g, '');
-                        }
+                            newValue = newValue.replace(/<script.*?>.*?<\/script>/gms, '').replace(/<script.*?\/?>/gms, '');
+                        }   
 
                         try {
                             await page.updateProperty(req.body.property, newValue);
