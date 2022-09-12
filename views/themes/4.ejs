@@ -50,13 +50,15 @@
             <h1>
                 <%= site.title %>
             </h1>
-            <nav class="menu">
-                <% for (const singlePage of pages) { %>
-                    <a href="<%= singlePage.path %>">
-                        <%= singlePage.title %>
-                    </a>
-                <% } %>
-            </nav>
+            <% if (pages.length > 1) { %>
+                <nav class="menu">
+                    <% for (const singlePage of pages) { %>
+                        <a href="<%= singlePage.path %>">
+                            <%= singlePage.title %>
+                        </a>
+                    <% } %>
+                </nav>
+            <% } %>
             <h2>
                 <%= page.title %>
             </h2>
