@@ -32,7 +32,7 @@ Before you begin installation of the project, please make sure that you have acc
  - Recent version of Node.js
  - MongoDB database
 
-### Cloning the repository
+### Downloading
 
 Open the folder in which you would like to store the application and clone this repository.
 
@@ -40,7 +40,7 @@ Open the folder in which you would like to store the application and clone this 
 git clone https://gitlab.com/konradkubczyk/netlico.git
 ```
 
-### Installation of dependencies
+### Installation
 
 Use npm to install dependencies.
 
@@ -48,7 +48,7 @@ Use npm to install dependencies.
 npm install
 ```
 
-### Configure environment variables
+### Configuration
 
 When in development, supply the required variables using .env file at the root directory of the project. Create a new file according to the scheme below.
 
@@ -61,6 +61,6 @@ COOKIE_SECRET='[Random secret used for cookies]'
 
 Replace placeholders, including square brackets, with appropriate data. Remember, the required information are confidential. **Do not share your .env file.**
 
-### Run the app
+### Running
 
 Use `npm start` for production environment, `npm dev` for development (with app restarts on file changes) or `npm test` to run the included test suite.
