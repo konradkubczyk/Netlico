@@ -1,10 +1,10 @@
 {
   "name": "netlico",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "NODE_ENV=production node ./bin/www",
-    "dev": "nodemon ./bin/www",
+    "dev": "nodemon ./bin/www --ignore ./licenses.json",
     "test": "mocha"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "express-flash": "^0.0.2",
     "http-errors": "~1.6.2",
     "jsonwebtoken": "^8.5.1",
+    "license-checker": "^25.0.1",
     "mongoose": "^6.5.2",
     "morgan": "~1.9.0"
   },

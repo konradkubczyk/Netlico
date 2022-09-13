@@ -11,6 +11,32 @@ require('dotenv').config();
 var app = require('../app');
 var debug = require('debug')('demo:server');
 var http = require('http');
+var licenseChecker = require('license-checker');
+
+/**
+ * Generate the list of licenses
+ */
+licenseChecker.init({
+  start: __dirname + '/../',
+  customFormat: {
+    "name": "",
+    "version": "",
+    "license": "",
+    "repository": "",
+    "licenseFile": ""
+  }
+}, function (error, packages) {
+  if (error) {
+    console.error(error);
+  } else {
+    var fs = require('fs');
+    fs.writeFile(__dirname + "/../licenses.json", JSON.stringify(packages, null, 2), function (error) {
+      if (error) {
+        return console.error(error);
+      }
+    });
+  }
+});
 
 /**
  * Get port from environment and store in Express.
