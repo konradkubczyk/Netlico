@@ -21,8 +21,10 @@
                             <%= license.name %>
                             <span class="ms-2 badge rounded-pill text-dark border d-flex align-items-center fw-normal">
                                 <%= license.version %>
-                                <div class="vr mx-1"></div>
-                                <%= license.license %>
+                                <% if (license.license) { %>
+                                    <div class="vr mx-1"></div>
+                                    <%= license.license %>
+                                <% } %>
                             </span>
                         </button>
                     </h2>
