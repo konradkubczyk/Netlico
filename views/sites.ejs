@@ -6,51 +6,58 @@
 </head>
 
 <body>
-    <%- include('./components/navbar'); %>
-    <div class="container">
-        <div class="gap-4 mt-4" style=" display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
-            <% for (const site of sites) { %>
+    <div class="min-vh-100">
+
+        <%- include('./components/navbar'); %>
+
+        <div class="container pb-4">
+            <div class="gap-4 mt-4" style=" display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));">
+                <% for (const site of sites) { %>
+                    <div class="card text-bg-light">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <span style="z-index: 2;">
+                                <% if (!site.isPublished) { %>
+                                    Unpublished
+                                <% } else if (!site.customDomain) { %>
+                                    <a href="https://<%= site.subdomain %>.<%= appDomain %>" class="text-dark" target="_blank">
+                                        <%= site.subdomain %>.<%= appDomain %>
+                                    </a>
+                                <% } else { %>
+                                    <a href="https://<%= site.customDomain %>" class="text-dark" style="z-index: 2;">
+                                        <%= site.customDomain %>
+                                    </a>
+                                <% } %>
+                            </span>
+                            <span class="badge rounded-pill text-bg-light">
+                                <%= site.tier %>
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <a href="/sites/<%= site.id %>" class="stretched-link text-decoration-none text-dark">
+                                <h5 class="card-title">
+                                    <%= site.title %>
+                                </h5>
+                            </a>
+                            <p class="card-text">
+                                <%= site.description %>
+                            </p>
+                        </div>
+                    </div>
+                <% } %>
                 <div class="card text-bg-light">
-                    <div class="card-header d-flex align-items-center justify-content-between">
-                        <span style="z-index: 2;">
-                            <% if (!site.isPublished) { %>
-                                Unpublished
-                            <% } else if (!site.customDomain) { %>
-                                <a href="https://<%= site.subdomain %>.<%= appDomain %>" class="text-dark" target="_blank">
-                                    <%= site.subdomain %>.<%= appDomain %>
-                                </a>
-                            <% } else { %>
-                                <a href="https://<%= site.customDomain %>" class="text-dark" style="z-index: 2;">
-                                    <%= site.customDomain %>
-                                </a>
-                            <% } %>
-                        </span>
-                        <span class="badge rounded-pill text-bg-light">
-                            <%= site.tier %>
-                        </span>
-                    </div>
-                    <div class="card-body">
-                        <a href="/sites/<%= site.id %>" class="stretched-link text-decoration-none text-dark">
-                            <h5 class="card-title">
-                                <%= site.title %>
-                            </h5>
-                        </a>
-                        <p class="card-text">
-                            <%= site.description %>
-                        </p>
-                    </div>
-                </div>
-            <% } %>
-            <div class="card text-bg-light">
-                <div class="h-100 d-flex align-items-center justify-content-center p-5">
-                    <div class="text-muted d-flex flex-column text-center">
-                        <i class="bi bi-plus-lg fs-1"></i>
-                        <a id="createSiteLink" href="#" class="stretched-link text-reset text-decoration-none">Create new site</a>
+                    <div class="h-100 d-flex align-items-center justify-content-center p-5">
+                        <div class="text-muted d-flex flex-column text-center">
+                            <i class="bi bi-plus-lg fs-1"></i>
+                            <a id="createSiteLink" href="#" class="stretched-link text-reset text-decoration-none">Create new site</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    
     </div>
+
+    <%- include('./components/footer'); %>
 
     <script>
         const createSiteLink = document.getElementById('createSiteLink');
